@@ -1,16 +1,20 @@
 
 :root {
-  --primary: #047857;
-  --primary-dark: #065f46;
-  --background: #f8faf9;
+  --primary: #16845b;
+  --primary-dark: #116b49;
+  --background: #f7faf8;
   --surface: #ffffff;
-  --text: #172b25;
+  --text: #19352a;
   --muted: #718078;
-  --border: #e5ebe7;
+  --border: #e5ede8;
 }
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -22,4 +26,284 @@ body {
 
 button, input {
   font: inherit;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navbar {
+  min-height: 76px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.navbar nav {
+  display: flex;
+  gap: 32px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.navbar nav a:hover,
+.learn-btn:hover {
+  color: var(--primary);
+}
+
+.nav-actions,
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.login-btn,
+.signup-btn {
+  padding: 12px 19px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.login-btn {
+  background: white;
+  color: var(--primary-dark);
+  border: 1px solid var(--border);
+}
+
+.signup-btn {
+  background: var(--primary);
+  color: white;
+  border: 1px solid var(--primary);
+}
+
+.signup-btn:hover {
+  background: var(--primary-dark);
+}
+
+.hero {
+  min-height: 590px;
+  padding: 90px 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 55px;
+  background: linear-gradient(120deg, #f1f8f3, #ffffff);
+}
+
+.hero-content {
+  max-width: 590px;
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  margin: 22px 0;
+  font-size: clamp(42px, 5vw, 65px);
+  line-height: 1.12;
+  letter-spacing: -2px;
+}
+
+.hero h1 span {
+  color: var(--primary);
+}
+
+.hero-content > p,
+.intro > p {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.learn-btn {
+  color: var(--text);
+  font-weight: 700;
+  padding: 12px;
+}
+
+.hero-card {
+  width: 330px;
+  flex-shrink: 0;
+  padding: 32px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgba(34, 83, 59, 0.09);
+}
+
+.card-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #e8f5ec;
+  color: var(--primary);
+  font-size: 28px;
+}
+
+.hero-card h2 {
+  margin: 23px 0 8px;
+  font-size: 23px;
+}
+
+.hero-card p,
+.mini-item {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.card-line {
+  height: 1px;
+  background: var(--border);
+  margin: 22px 0;
+}
+
+.mini-item {
+  padding: 7px 0;
+  font-size: 14px;
+}
+
+.intro,
+.features {
+  padding: 85px 10%;
+  text-align: center;
+}
+
+.intro h2,
+.features h2 {
+  font-size: 34px;
+  margin: 15px 0;
+}
+
+.intro > p {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.features {
+  background: #f0f6f2;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 40px;
+  text-align: left;
+}
+
+.feature-card {
+  padding: 28px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  box-shadow: 0 8px 25px rgba(34, 83, 59, 0.04);
+}
+
+.feature-card > span {
+  color: var(--primary);
+  font-size: 30px;
+}
+
+.feature-card h3 {
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+footer {
+  padding: 35px 10%;
+  text-align: center;
+  background: white;
+  border-top: 1px solid var(--border);
+}
+
+footer strong {
+  color: var(--primary);
+  font-size: 22px;
+}
+
+footer p,
+footer small {
+  color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .navbar {
+    padding: 18px 5%;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .navbar nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .nav-actions {
+    gap: 7px;
+  }
+
+  .login-btn,
+  .signup-btn {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 65px 7%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-card {
+    width: 100%;
+  }
+
+  .intro,
+  .features {
+    padding: 65px 7%;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
 }
