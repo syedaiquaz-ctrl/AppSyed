@@ -5,82 +5,45 @@ document.addEventListener("DOMContentLoaded", () => {
   app.innerHTML = `
     <header class="navbar">
       <a class="logo" href="#">AppSyed<span>.</span></a>
-
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-      </nav>
-
-      <div class="nav-actions">
-        <button class="login-btn">Sign In</button>
-        <button class="signup-btn">Create Account</button>
-      </div>
+      <button class="profile-btn">My Profile</button>
     </header>
 
-    <main id="home">
-      <section class="hero">
-        <div class="hero-content">
-          <span class="eyebrow">WELCOME TO APPSYED</span>
-          <h1>One Platform.<br><span>Many Possibilities.</span></h1>
-          <p>
-            Discover useful apps, organise your life,
-            and explore new possibilities — all in one place.
-          </p>
-
-          <div class="hero-actions">
-            <button class="signup-btn">Get Started</button>
-            <a class="learn-btn" href="#about">Explore AppSyed →</a>
-          </div>
-        </div>
-
-        <div class="hero-card">
-          <div class="card-icon">✦</div>
-          <h2>Everything together.</h2>
-          <p>Your digital world, organised in one platform.</p>
-          <div class="card-line"></div>
-          <div class="mini-item">✓ Productivity</div>
-          <div class="mini-item">✓ Creativity</div>
-          <div class="mini-item">✓ Everyday tools</div>
-        </div>
+    <main class="platform">
+      <section class="welcome">
+        <span class="eyebrow">WELCOME TO APPSYED</span>
+        <h1>Your digital world,<br><span>all in one place.</span></h1>
+        <p>Discover applications and explore new possibilities.</p>
       </section>
 
-      <section class="intro" id="about">
-        <span class="eyebrow">ONE PLATFORM</span>
-        <h2>A place for all your possibilities.</h2>
-        <p>
-          AppSyed brings applications, tools and ideas together.
-          Find what you need and make your everyday digital
-          experience simpler.
-        </p>
+      <section class="your-apps">
+        <div class="section-heading">
+          <h2>Your Apps</h2>
+          <span>1 app</span>
+        </div>
+
+        <article class="app-card">
+          <div class="app-icon">✓</div>
+          <h3>Productivity App</h3>
+          <p>Tasks, calendar, habits, goals and more.</p>
+          <button class="open-app-btn">Open App</button>
+        </article>
       </section>
 
-      <section class="features" id="features">
-        <h2>Explore what AppSyed offers</h2>
-        <div class="feature-grid">
-          <article class="feature-card">
-            <span>▦</span>
-            <h3>Discover Apps</h3>
-            <p>Explore useful applications in one place.</p>
-          </article>
-          <article class="feature-card">
-            <span>✧</span>
-            <h3>Productivity</h3>
-            <p>Tools to plan, organise and manage your day.</p>
-          </article>
-          <article class="feature-card">
-            <span>＋</span>
-            <h3>Creator Studio</h3>
-            <p>A space for creators to build and publish apps.</p>
-          </article>
-        </div>
+      <section class="creator-section">
+        <h2>Creator Studio</h2>
+        <p>Have an idea? Create your own application and publish it on AppSyed.</p>
+        <button class="create-app-btn">＋ Create an App</button>
+        <small>Publishing subscription: 1 KWD/month or 10 KWD/year.</small>
       </section>
     </main>
 
-    <footer>
-      <strong>AppSyed.</strong>
-      <p>One Platform. Many Possibilities.</p>
-      <small>© 2026 AppSyed. All rights reserved.</small>
-    </footer>
+    <nav class="bottom-nav">
+      <a class="active" href="#">⌂<span>Home</span></a>
+      <a href="#discover">◇<span>Discover</span></a>
+      <a href="#create">＋<span>Create</span></a>
+      <a href="#library">▤<span>Library</span></a>
+      <a href="#profile">○<span>Profile</span></a>
+    </nav>
   `;
 });
+
