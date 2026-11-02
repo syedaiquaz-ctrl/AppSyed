@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="app-icon">✓</div>
           <h3>Productivity App</h3>
           <p>Tasks, calendar, habits, goals and more.</p>
-          <a class="open-app-btn" href="apps/productivity.html">Open App</a>
+          <a class="open-app-btn" href="src/apps/productivity.html">Open App</a>
         </article>
       </section>
 
