@@ -1,16 +1,614 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#047857">
-  <meta name="description" content="AppSyed — One Platform. Many Possibilities.">
-  <title>AppSyed</title>
-  <link rel="stylesheet" href="src/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16845b">
+<title>AppSyed</title>
+<style>
+:root {
+  --green: #16845b;
+  --dark: #096344;
+  --background: #f5f9f6;
+  --text: #18352a;
+  --muted: #718078;
+  --border: #e5eee8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+.wrap {
+  width: min(460px, 92%);
+  margin: auto;
+  padding: 42px 0;
+}
+.brand {
+  text-align: center;
+  color: var(--dark);
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 28px;
+}
+.brand span { color: var(--green); }
+.panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px #18352a08;
+}
+.muted { color: var(--muted); line-height: 1.6; }
+.profile-list { display: grid; gap: 10px; margin: 20px 0; }
+.profile {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: white;
+  text-align: left;
+  color: var(--text);
+}
+.profile:hover { border-color: var(--green); }
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: #e5f4e9;
+  color: var(--green);
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.profile-info { flex: 1; }
+.profile-info small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.field {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin: 12px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline-color: var(--green);
+}
+.btn {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+.primary { background: var(--green); color: white; }
+.secondary { background: #edf5ef; color: var(--dark); }
+.text-button {
+  background: none;
+  border: 0;
+  color: var(--green);
+  padding: 12px 0;
+  font-weight: bold;
+}
+.message {
+  color: #b83c3c;
+  font-size: 13px;
+  min-height: 18px;
+  line-height: 1.5;
+}
+.notice {
+  padding: 12px;
+  border-radius: 10px;
+  background: #edf5ef;
+  color: var(--dark);
+  line-height: 1.5;
+  font-size: 14px;
+  margin: 14px 0;
+}
+.home {
+  width: min(1050px, 90%);
+  margin: auto;
+  padding: 35px 0 110px;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 5%;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+.top .brand { font-size: 25px; margin: 0; }
+.top button {
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 9px;
+}
+.home h1 { font-size: clamp(32px, 5vw, 48px); }
+.home h1 span { color: var(--green); }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 25px;
+}
+.app-card, .creator-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+}
+.creator-card { background: #eaf5ed; margin-top: 22px; }
+.app-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 15px;
+  background: #e5f4e9;
+  color: var(--green);
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+}
+.open-link {
+  display: inline-block;
+  background: var(--green);
+  color: white;
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+.request {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+.request button {
+  border: 0;
+  background: var(--green);
+  color: white;
+  border-radius: 8px;
+  padding: 9px 12px;
+}
+@media(max-width: 480px) {
+  .wrap { padding-top: 28px; }
+  .panel { padding: 19px; }
+  .top { padding: 14px 4%; }
+}
+</style>
 </head>
+
 <body>
-  <div id="app"></div>
-  <script src="src/app.js"></script>
+
+<section id="profileScreen" class="screen active">
+  <div class="wrap">
+    <div class="brand">AppSyed<span>.</span></div>
+    <div class="panel">
+      <h2>Welcome to AppSyed</h2>
+      <p class="muted">Choose your profile to continue.</p>
+      <div id="profileList" class="profile-list"></div>
+      <div id="profileMessage" class="message"></div>
+      <button class="btn primary" onclick="showCreate()">＋ Add a profile</button>
+      <p class="muted" style="font-size:12px;margin-top:16px">
+        Your profiles are saved in this browser's device storage.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="loginScreen" class="screen">
+  <div class="wrap">
+    <div class="brand">AppSyed<span>.</span></div>
+    <div class="panel">
+      <h2 id="loginHeading">Enter your PIN</h2>
+      <p id="loginDescription" class="muted"></p>
+      <input id="loginPin" class="field" type="password"
+        inputmode="numeric" autocomplete="current-password"
+        placeholder="Enter your PIN">
+      <div id="loginMessage" class="message"></div>
+      <button class="btn primary" onclick="login()">Continue</button>
+      <button class="text-button" onclick="showProfiles()">← Back to profiles</button>
+    </div>
+  </div>
+</section>
+
+<section id="createScreen" class="screen">
+  <div class="wrap">
+    <div class="brand">AppSyed<span>.</span></div>
+    <div class="panel">
+      <h2>Create a profile</h2>
+      <p class="muted">Set up a separate profile with its own PIN.</p>
+
+      <input id="newName" class="field" maxlength="35"
+        autocomplete="off" placeholder="Profile name">
+
+      <input id="newPin" class="field" type="password"
+        inputmode="numeric" maxlength="8"
+        autocomplete="new-password" placeholder="Create a 4–8 digit PIN">
+
+      <input id="confirmPin" class="field" type="password"
+        inputmode="numeric" maxlength="8"
+        autocomplete="new-password" placeholder="Confirm your PIN">
+
+      <div id="createMessage" class="message"></div>
+      <div id="createNotice" class="notice" style="display:none"></div>
+
+      <button class="btn primary" onclick="createProfile()">Create profile</button>
+      <button class="text-button" onclick="showProfiles()">← Back</button>
+    </div>
+  </div>
+</section>
+
+<section id="homeScreen" class="screen">
+  <div class="top">
+    <div class="brand">AppSyed<span>.</span></div>
+    <button onclick="showProfiles()">Switch profile</button>
+  </div>
+
+  <main class="home">
+    <p class="muted" id="welcomeRole"></p>
+    <h1>Welcome, <span id="welcomeName">there</span>!</h1>
+    <p class="muted">Your digital world, all in one place.</p>
+
+    <div class="cards">
+      <article class="app-card">
+        <div class="app-icon">✓</div>
+        <h2>Productivity</h2>
+        <p class="muted">Organise your tasks, plans and daily progress.</p>
+        <a class="open-link" href="src/apps/productivity.html">Open app</a>
+      </article>
+
+      <article class="app-card">
+        <div class="app-icon">＋</div>
+        <h2>Creator Studio</h2>
+        <p class="muted">Create and prepare your own apps for AppSyed.</p>
+        <button class="btn secondary" onclick="creatorNotice()">
+          Open Creator Studio
+        </button>
+        <p id="creatorMessage" class="muted" style="font-size:13px"></p>
+      </article>
+    </div>
+
+    <section id="ownerArea" class="creator-card" style="display:none">
+      <h2>Family profile requests</h2>
+      <p class="muted">Review requests to add a family profile.</p>
+      <div id="pendingRequests"></div>
+    </section>
+  </main>
+</section>
+
+<script src="src/storage.js"></script>
+<script>
+"use strict";
+
+const ACTIVE_PROFILE_KEY = "appsyed_active_profile";
+let selectedProfile = null;
+let currentProfile = null;
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
+function showProfiles() {
+  sessionStorage.removeItem(ACTIVE_PROFILE_KEY);
+  selectedProfile = null;
+  currentProfile = null;
+  showScreen("profileScreen");
+  loadProfiles();
+}
+
+function showCreate() {
+  document.getElementById("newName").value = "";
+  document.getElementById("newPin").value = "";
+  document.getElementById("confirmPin").value = "";
+  document.getElementById("createMessage").textContent = "";
+  showScreen("createScreen");
+}
+
+function showLogin(profile) {
+  selectedProfile = profile;
+  document.getElementById("loginHeading").textContent =
+    "Hello, " + profile.name;
+  document.getElementById("loginDescription").textContent =
+    "Enter your PIN to open your profile.";
+  document.getElementById("loginPin").value = "";
+  document.getElementById("loginMessage").textContent = "";
+  showScreen("loginScreen");
+  document.getElementById("loginPin").focus();
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  bytes.forEach(byte => binary += String.fromCharCode(byte));
+  return btoa(binary);
+}
+
+async function makePinHash(pin, saltBytes) {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(pin),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+
+  const bits = await crypto.subtle.deriveBits({
+    name: "PBKDF2",
+    salt: saltBytes,
+    iterations: 150000,
+    hash: "SHA-256"
+  }, key, 256);
+
+  return bytesToBase64(new Uint8Array(bits));
+}
+
+async function createProfile() {
+  const message = document.getElementById("createMessage");
+  const name = document.getElementById("newName").value.trim();
+  const pin = document.getElementById("newPin").value;
+  const confirm = document.getElementById("confirmPin").value;
+
+  message.textContent = "";
+
+  if (!name) {
+    message.textContent = "Please enter a profile name.";
+    return;
+  }
+
+  if (!/^\d{4,8}$/.test(pin)) {
+    message.textContent = "Your PIN must contain 4 to 8 digits.";
+    return;
+  }
+
+  if (pin !== confirm) {
+    message.textContent = "The PINs do not match.";
+    return;
+  }
+
+  try {
+    if (!window.crypto || !crypto.subtle) {
+      throw new Error("Secure PIN setup requires the HTTPS version of AppSyed.");
+    }
+
+    const existingProfiles = await AppSyedStorage.getProfiles();
+    const isFirstProfile = existingProfiles.length === 0;
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const pinHash = await makePinHash(pin, salt);
+
+    const profile = {
+      id: crypto.randomUUID(),
+      name,
+      role: isFirstProfile ? "Main Owner" : "Family Member",
+      status: isFirstProfile ? "approved" : "pending",
+      pinSalt: bytesToBase64(salt),
+      pinHash,
+      createdAt: new Date().toISOString()
+    };
+
+    await AppSyedStorage.saveProfile(profile);
+
+    if (isFirstProfile) {
+      showProfiles();
+    } else {
+      document.getElementById("createNotice").style.display = "block";
+      document.getElementById("createNotice").textContent =
+        "Your profile request has been saved. The Main Owner must approve it before you can sign in.";
+      message.textContent = "";
+      document.getElementById("newName").value = "";
+      document.getElementById("newPin").value = "";
+      document.getElementById("confirmPin").value = "";
+    }
+  } catch (error) {
+    message.textContent = error.message || "Could not save this profile.";
+  }
+}
+
+async function loadProfiles() {
+  const list = document.getElementById("profileList");
+  const message = document.getElementById("profileMessage");
+  list.innerHTML = "";
+  message.textContent = "";
+
+  try {
+    const profiles = await AppSyedStorage.getProfiles();
+    const approved = profiles.filter(p => p.status === "approved");
+    const pending = profiles.filter(p => p.status === "pending");
+
+    if (approved.length === 0) {
+      list.innerHTML =
+        '<p class="muted">No profiles yet. Create the first profile to become the Main Owner.</p>';
+    }
+
+    approved.forEach(profile => {
+      const button = document.createElement("button");
+      button.className = "profile";
+
+      const avatar = document.createElement("span");
+      avatar.className = "avatar";
+      avatar.textContent = profile.name.charAt(0).toUpperCase();
+
+      const info = document.createElement("span");
+      info.className = "profile-info";
+
+      const name = document.createElement("strong");
+      name.textContent = profile.name;
+
+      const role = document.createElement("small");
+      role.textContent = profile.role;
+
+      info.append(name, role);
+      button.append(avatar, info);
+      button.onclick = () => showLogin(profile);
+      list.appendChild(button);
+    });
+
+    if (pending.length > 0) {
+      const pendingNote = document.createElement("p");
+      pendingNote.className = "muted";
+      pendingNote.textContent =
+        pending.length + " profile request(s) waiting for Main Owner approval.";
+      list.appendChild(pendingNote);
+    }
+  } catch (error) {
+    message.textContent =
+      "Could not open device storage. Please reload AppSyed and try again.";
+  }
+}
+
+async function login() {
+  const message = document.getElementById("loginMessage");
+  const pin = document.getElementById("loginPin").value;
+  message.textContent = "";
+
+  if (!selectedProfile) {
+    message.textContent = "Please select a profile first.";
+    return;
+  }
+
+  if (!/^\d{4,8}$/.test(pin)) {
+    message.textContent = "Enter your 4–8 digit PIN.";
+    return;
+  }
+
+  try {
+    const profile = await AppSyedStorage.getProfile(selectedProfile.id);
+
+    if (!profile || profile.status !== "approved") {
+      message.textContent = "This profile is not approved yet.";
+      return;
+    }
+
+    const salt = Uint8Array.from(
+      atob(profile.pinSalt),
+      character => character.charCodeAt(0)
+    );
+
+    const enteredHash = await makePinHash(pin, salt);
+
+    if (enteredHash !== profile.pinHash) {
+      message.textContent = "Incorrect PIN. Please try again.";
+      return;
+    }
+
+    currentProfile = profile;
+    sessionStorage.setItem(ACTIVE_PROFILE_KEY, profile.id);
+    openHome(profile);
+  } catch (error) {
+    message.textContent = "Could not check your PIN. Please try again.";
+  }
+}
+
+async function openHome(profile) {
+  document.getElementById("welcomeName").textContent = profile.name;
+  document.getElementById("welcomeRole").textContent = profile.role;
+  showScreen("homeScreen");
+
+  const ownerArea = document.getElementById("ownerArea");
+  ownerArea.style.display =
+    profile.role === "Main Owner" ? "block" : "none";
+
+  if (profile.role === "Main Owner") {
+    await loadPendingRequests();
+  }
+}
+
+async function loadPendingRequests() {
+  const container = document.getElementById("pendingRequests");
+  container.innerHTML = "";
+
+  try {
+    const profiles = await AppSyedStorage.getProfiles();
+    const pending = profiles.filter(p => p.status === "pending");
+
+    if (pending.length === 0) {
+      container.textContent = "No pending requests.";
+      return;
+    }
+
+    pending.forEach(profile => {
+      const row = document.createElement("div");
+      row.className = "request";
+
+      const label = document.createElement("span");
+      label.textContent = profile.name;
+
+      const approve = document.createElement("button");
+      approve.textContent = "Approve";
+      approve.onclick = async () => {
+        profile.status = "approved";
+        await AppSyedStorage.saveProfile(profile);
+        await loadPendingRequests();
+      };
+
+      row.append(label, approve);
+      container.appendChild(row);
+    });
+  } catch (error) {
+    container.textContent = "Could not load profile requests.";
+  }
+}
+
+function creatorNotice() {
+  document.getElementById("creatorMessage").textContent =
+    "Creator Studio is planned; its app-building tools are not ready yet.";
+}
+
+async function startApp() {
+  try {
+    if (!window.indexedDB) {
+      throw new Error("This browser does not support IndexedDB.");
+    }
+
+    await AppSyedStorage.openDatabase();
+
+    // Request persistent device storage where the browser allows it.
+    // The browser may decline this request.
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().catch(() => false);
+    }
+
+    const activeId = sessionStorage.getItem(ACTIVE_PROFILE_KEY);
+
+    if (activeId) {
+      const profile = await AppSyedStorage.getProfile(activeId);
+
+      if (profile && profile.status === "approved") {
+        currentProfile = profile;
+        openHome(profile);
+        return;
+      }
+    }
+
+    showProfiles();
+  } catch (error) {
+    document.getElementById("profileMessage").textContent =
+      "AppSyed could not start its device storage. Please open it using the GitHub Pages HTTPS link.";
+  }
+}
+
+startApp();
+</script>
 </body>
 </html>
