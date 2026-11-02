@@ -5,51 +5,747 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#16845b">
-  <title>Productivity App | AppSyed</title>
+  <title>Productivity | AppSyed</title>
   <link rel="stylesheet" href="../style.css">
-</head>
-<body>
-  <header class="navbar">
-    <a class="logo" href="../../index.html">AppSyed<span>.</span></a>
-    <span>Productivity</span>
-  </header>
 
-  <main class="platform">
-    <section class="welcome">
+  <style>
+    :root {
+      --p-green: #16845b;
+      --p-dark: #096344;
+      --p-bg: #f5f9f6;
+      --p-border: #e5eee8;
+      --p-muted: #718078;
+    }
+
+    body {
+      background: var(--p-bg);
+      padding-bottom: 100px;
+    }
+
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      gap: 12px;
+    }
+
+    .dash-header a {
+      text-decoration: none;
+    }
+
+    .dash-header small {
+      color: var(--p-muted);
+    }
+
+    .dashboard {
+      width: min(1100px, 90%);
+      margin: auto;
+    }
+
+    .dash-welcome {
+      padding: 35px 0 22px;
+    }
+
+    .dash-welcome h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin: 10px 0;
+    }
+
+    .dash-welcome p {
+      color: var(--p-muted);
+    }
+
+    .dash-card {
+      background: white;
+      border: 1px solid var(--p-border);
+      border-radius: 18px;
+      padding: 20px;
+      min-width: 0;
+    }
+
+    .progress-layout {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .progress-ring {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(
+        var(--p-green) var(--progress, 0%),
+        #e6eee8 0
+      );
+      flex-shrink: 0;
+    }
+
+    .progress-inner {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: white;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .summary-card {
+      background: white;
+      border: 1px solid var(--p-border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .summary-card .number {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 9px 0;
+    }
+
+    .summary-card small {
+      color: var(--p-muted);
+    }
+
+    .summary-card.today { border-top: 4px solid #16845b; }
+    .summary-card.upcoming { border-top: 4px solid #d49a36; }
+    .summary-card.overdue { border-top: 4px solid #d95353; }
+    .summary-card.completed { border-top: 4px solid #82918a; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 28px 0 14px;
+    }
+
+    .section-title h2 {
+      font-size: 21px;
+      margin: 0;
+    }
+
+    .task-form {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .task-form input,
+    .task-form select {
+      min-width: 0;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--p-border);
+      border-radius: 10px;
+      background: white;
+      color: #18352a;
+    }
+
+    .primary-btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      background: var(--p-green);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .primary-btn:hover {
+      background: var(--p-dark);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 15px 0;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--p-border);
+      background: white;
+      color: #52645a;
+      padding: 9px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: var(--p-green);
+      color: white;
+      border-color: var(--p-green);
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task-item {
+      background: white;
+      border: 1px solid var(--p-border);
+      border-radius: 14px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .task-item.done .task-name {
+      text-decoration: line-through;
+      color: #89958e;
+    }
+
+    .task-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .task-name {
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    .task-meta {
+      color: var(--p-muted);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .task-status {
+      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      background: #edf5ef;
+      color: #28744f;
+    }
+
+    .task-status.overdue {
+      background: #fceaea;
+      color: #b83c3c;
+    }
+
+    .task-status.upcoming {
+      background: #fff3dd;
+      color: #96600d;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .task-actions button {
+      border: 0;
+      background: #f1f5f2;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--p-muted);
+      padding: 30px 10px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .quick-link {
+      display: block;
+      text-align: center;
+      padding: 18px 8px;
+      background: white;
+      border: 1px solid var(--p-border);
+      border-radius: 14px;
+      color: var(--p-dark);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      min-height: 70px;
+      background: white;
+      border-top: 1px solid var(--p-border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(15px, 6vw, 75px);
+      z-index: 10;
+    }
+
+    .bottom-nav a {
+      color: var(--p-muted);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 20px;
+    }
+
+    .bottom-nav a span {
+      font-size: 11px;
+    }
+
+    .bottom-nav a.active {
+      color: var(--p-green);
+      font-weight: bold;
+    }
+
+    @media(max-width: 750px) {
+      .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .task-form {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .task-form input:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width: 430px) {
+      .task-status {
+        display: none;
+      }
+
+      .task-item {
+        padding: 12px 9px;
+      }
+
+      .task-actions button {
+        padding: 7px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dashboard">
+
+    <header class="dash-header">
+      <a class="logo" href="../../index.html">AppSyed<span>.</span></a>
+      <small>Productivity Workspace</small>
+    </header>
+
+    <section class="dash-welcome">
       <span class="eyebrow">YOUR PRODUCTIVITY SPACE</span>
-      <h1>Make every day<br><span>count.</span></h1>
-      <p>Plan, organise and achieve your goals in one place.</p>
+      <h1 id="greeting">Welcome!</h1>
+      <p id="today-date"></p>
+      <p>Let's make today count.</p>
+    </section>
+
+    <section class="dash-card">
+      <div class="section-title">
+        <h2>Today's Progress</h2>
+        <small id="progress-count">0 of 0 completed</small>
+      </div>
+
+      <div class="progress-layout">
+        <div class="progress-ring" id="progress-ring">
+          <div class="progress-inner" id="progress-percent">0%</div>
+        </div>
+        <div>
+          <h3>Your daily achievement</h3>
+          <p id="progress-message">Add your first task to get started.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary-grid">
+      <article class="summary-card today">
+        <small>Due Today</small>
+        <div class="number" id="due-count">0</div>
+        <small>Tasks due today</small>
+      </article>
+
+      <article class="summary-card upcoming">
+        <small>Upcoming</small>
+        <div class="number" id="upcoming-count">0</div>
+        <small>Future deadlines</small>
+      </article>
+
+      <article class="summary-card overdue">
+        <small>Overdue</small>
+        <div class="number" id="overdue-count">0</div>
+        <small>Past deadlines</small>
+      </article>
+
+      <article class="summary-card completed">
+        <small>Completed</small>
+        <div class="number" id="completed-count">0</div>
+        <small>Finished tasks</small>
+      </article>
+    </section>
+
+    <section class="dash-card">
+      <div class="section-title">
+        <h2>My Tasks</h2>
+        <span id="total-count">0 tasks</span>
+      </div>
+
+      <form class="task-form" id="task-form">
+        <input
+          type="text"
+          id="task-title"
+          placeholder="What do you need to do?"
+          maxlength="120"
+          required
+        >
+
+        <input type="date" id="task-date" aria-label="Due date">
+
+        <select id="task-priority" aria-label="Priority">
+          <option value="Medium">Medium priority</option>
+          <option value="High">High priority</option>
+          <option value="Low">Low priority</option>
+        </select>
+
+        <button class="primary-btn" type="submit">＋ Add Task</button>
+      </form>
+
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="all">All Tasks</button>
+        <button class="filter-btn" data-filter="today">Due Today</button>
+        <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+        <button class="filter-btn" data-filter="overdue">Overdue</button>
+        <button class="filter-btn" data-filter="completed">Completed</button>
+        <button class="filter-btn" data-filter="missed">Missed</button>
+        <button class="filter-btn" data-filter="no-date">No Deadline</button>
+      </div>
+
+      <div class="task-list" id="task-list">
+        <div class="empty-state">
+          No tasks yet. Add your first task above!
+        </div>
+      </div>
     </section>
 
     <section>
-      <h2>Your Workspace</h2>
-      <div class="feature-grid">
-        <article class="feature-card">
-          <h3>✓ Tasks</h3>
-          <p>Organise your daily tasks.</p>
-        </article>
-        <article class="feature-card">
-          <h3>▦ Calendar</h3>
-          <p>Manage your schedule.</p>
-        </article>
-        <article class="feature-card">
-          <h3>♡ Habits</h3>
-          <p>Build better habits.</p>
-        </article>
-        <article class="feature-card">
-          <h3>◎ Goals</h3>
-          <p>Track your progress.</p>
-        </article>
-        <article class="feature-card">
-          <h3>◷ Focus</h3>
-          <p>Concentrate on your work.</p>
-        </article>
-        <article class="feature-card">
-          <h3>▤ Statistics</h3>
-          <p>Review your progress.</p>
-        </article>
+      <div class="section-title">
+        <h2>Quick Actions</h2>
+      </div>
+
+      <div class="quick-grid">
+        <a class="quick-link" href="#task-form">＋<br>Add Task</a>
+        <a class="quick-link" href="#calendar">▦<br>Calendar</a>
+        <a class="quick-link" href="#goals">◎<br>Goals</a>
+        <a class="quick-link" href="#focus">◷<br>Focus</a>
       </div>
     </section>
-  </main>
+
+    <section class="dash-card" style="margin-top:25px">
+      <div class="section-title">
+        <h2>Upcoming Tasks</h2>
+      </div>
+      <div id="upcoming-preview" class="empty-state">
+        No upcoming deadlines.
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="active" href="#home">⌂<span>Home</span></a>
+    <a href="#tasks">✓<span>Tasks</span></a>
+    <a href="#calendar">▦<span>Calendar</span></a>
+    <a href="#focus">◷<span>Focus</span></a>
+    <a href="#more">☰<span>More</span></a>
+  </nav>
+
+  <script>
+    const STORAGE_KEY = "appsyed_productivity_tasks_v1";
+
+    let tasks = [];
+
+    try {
+      tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      if (!Array.isArray(tasks)) tasks = [];
+    } catch {
+      tasks = [];
+    }
+
+    let activeFilter = "all";
+
+    const $ = id => document.getElementById(id);
+
+    function localDateString(date = new Date()) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function saveTasks() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      } catch {
+        alert("Your browser could not save the tasks. Check available storage.");
+      }
+    }
+
+    function getStatus(task) {
+      if (task.completed) return "completed";
+
+      const today = localDateString();
+
+      if (!task.date) return "no-date";
+      if (task.date < today) return "overdue";
+      if (task.date === today) return "today";
+      return "upcoming";
+    }
+
+    function readableDate(date) {
+      if (!date) return "No deadline";
+
+      return new Date(date + "T12:00:00").toLocaleDateString(
+        undefined,
+        { day: "numeric", month: "short", year: "numeric" }
+      );
+    }
+
+    function updateHeader() {
+      const hour = new Date().getHours();
+
+      $("greeting").textContent =
+        hour < 12 ? "Good morning!" :
+        hour < 18 ? "Good afternoon!" :
+        "Good evening!";
+
+      $("today-date").textContent =
+        new Date().toLocaleDateString(undefined, {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        });
+    }
+
+    function render() {
+      const today = localDateString();
+
+      const activeTasks = tasks.filter(t => !t.completed);
+      const completed = tasks.filter(t => t.completed);
+      const dueToday = activeTasks.filter(t => getStatus(t) === "today");
+      const upcoming = activeTasks.filter(t => getStatus(t) === "upcoming");
+      const overdue = activeTasks.filter(t => getStatus(t) === "overdue");
+
+      $("due-count").textContent = dueToday.length;
+      $("upcoming-count").textContent = upcoming.length;
+      $("overdue-count").textContent = overdue.length;
+      $("completed-count").textContent = completed.length;
+      $("total-count").textContent = `${tasks.length} tasks`;
+
+      const percent = tasks.length
+        ? Math.round(completed.length / tasks.length * 10000) / 100
+        : 0;
+
+      $("progress-ring").style.setProperty("--progress", percent + "%");
+      $("progress-percent").textContent = percent + "%";
+      $("progress-count").textContent =
+        `${completed.length} of ${tasks.length} completed`;
+
+      $("progress-message").textContent =
+        tasks.length === 0 ? "Add your first task to get started." :
+        percent === 100 ? "Amazing! All your tasks are complete." :
+        "Keep going. Every completed task counts!";
+
+      const filtered = tasks.filter(task => {
+        const status = getStatus(task);
+
+        if (activeFilter === "missed") return status === "overdue";
+        return activeFilter === "all" || status === activeFilter;
+      });
+
+      const sorted = [...filtered].sort((a, b) => {
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        if (!a.date) return 1;
+        if (!b.date) return -1;
+        return a.date.localeCompare(b.date);
+      });
+
+      $("task-list").innerHTML = sorted.length
+        ? sorted.map(task => {
+            const status = getStatus(task);
+            const statusLabel = {
+              today: "Due Today",
+              upcoming: "Upcoming",
+              overdue: "Overdue",
+              completed: "Completed",
+              "no-date": "No Deadline"
+            }[status];
+
+            return `
+              <article class="task-item ${task.completed ? "done" : ""}">
+                <input
+                  type="checkbox"
+                  aria-label="Complete task"
+                  data-action="toggle"
+                  data-id="${escapeHTML(task.id)}"
+                  ${task.completed ? "checked" : ""}
+                >
+
+                <div class="task-info">
+                  <div class="task-name">${escapeHTML(task.title)}</div>
+                  <div class="task-meta">
+                    ${readableDate(task.date)}
+                    · ${escapeHTML(task.priority)} priority
+                  </div>
+                </div>
+
+                <span class="task-status ${status === "overdue" ? "overdue" : status === "upcoming" ? "upcoming" : ""}">
+                  ${statusLabel}
+                </span>
+
+                <div class="task-actions">
+                  ${!task.completed && task.date ? `
+                    <button data-action="postpone" data-id="${escapeHTML(task.id)}" title="Postpone one day">+1d</button>
+                  ` : ""}
+                  <button data-action="delete" data-id="${escapeHTML(task.id)}" title="Delete task">✕</button>
+                </div>
+              </article>
+            `;
+          }).join("")
+        : `<div class="empty-state">No tasks in this section.</div>`;
+
+      const nextTasks = upcoming
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .slice(0, 4);
+
+      $("upcoming-preview").innerHTML = nextTasks.length
+        ? nextTasks.map(task => `
+            <p>
+              <strong>${escapeHTML(task.title)}</strong>
+              <span> — ${readableDate(task.date)}</span>
+            </p>
+          `).join("")
+        : "No upcoming deadlines.";
+
+      document.querySelectorAll(".filter-btn").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.filter === activeFilter
+        );
+      });
+    }
+
+    $("task-form").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const title = $("task-title").value.trim();
+      if (!title) return;
+
+      tasks.push({
+        id: crypto.randomUUID
+          ? crypto.randomUUID()
+          : String(Date.now()) + Math.random(),
+        title,
+        date: $("task-date").value,
+        priority: $("task-priority").value,
+        completed: false,
+        createdAt: new Date().toISOString()
+      });
+
+      saveTasks();
+      $("task-form").reset();
+      activeFilter = "all";
+      render();
+    });
+
+    $("filters").addEventListener("click", event => {
+      const button = event.target.closest("[data-filter]");
+      if (!button) return;
+
+      activeFilter = button.dataset.filter;
+      render();
+    });
+
+    $("task-list").addEventListener("change", event => {
+      const checkbox = event.target.closest('[data-action="toggle"]');
+      if (!checkbox) return;
+
+      const task = tasks.find(t => t.id === checkbox.dataset.id);
+      if (!task) return;
+
+      task.completed = checkbox.checked;
+      task.completedAt = task.completed
+        ? new Date().toISOString()
+        : null;
+
+      saveTasks();
+      render();
+    });
+
+    $("task-list").addEventListener("click", event => {
+      const button = event.target.closest("[data-action]");
+      if (!button) return;
+
+      const task = tasks.find(t => t.id === button.dataset.id);
+      if (!task) return;
+
+      if (button.dataset.action === "delete") {
+        if (!confirm("Delete this task?")) return;
+        tasks = tasks.filter(t => t.id !== task.id);
+      }
+
+      if (button.dataset.action === "postpone") {
+        const date = task.date
+          ? new Date(task.date + "T12:00:00")
+          : new Date();
+
+        date.setDate(date.getDate() + 1);
+        task.date = localDateString(date);
+      }
+
+      saveTasks();
+      render();
+    });
+
+    updateHeader();
+    render();
+  </script>
+
 </body>
 </html>
