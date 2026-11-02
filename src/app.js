@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <h2>Creator Studio</h2>
         <p>Have an idea? Create your own application and publish it on AppSyed.</p>
         <button class="create-app-btn">＋ Create an App</button>
-        <small>Publishing subscription: 1 KWD/month or 10 KWD/year.</small>
+        
       </section>
     </main>
 
