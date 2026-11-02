@@ -7,14 +7,7 @@
 <meta name="theme-color" content="#16845b">
 <title>AppSyed</title>
 <style>
-:root {
-  --green:#16845b;
-  --dark:#10583e;
-  --bg:#f5f9f6;
-  --text:#19352a;
-  --muted:#718078;
-  --border:#e5eee8;
-}
+:root{--green:#16845b;--dark:#10583e;--bg:#f5f9f6;--text:#19352a;--muted:#718078;--border:#e5eee8}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
 button,input{font:inherit}
@@ -41,26 +34,32 @@ main{width:min(1050px,88%);margin:auto;padding:55px 0 120px}
 .creator{margin-top:28px;padding:25px;border-radius:19px;background:#eaf5ed;border:1px solid #dcece0}
 .creator h2{margin:0}
 .creator button{background:var(--dark)}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:0;background:white;border-top:1px solid var(--border);padding:10px 8px calc(10px + env(safe-area-inset-bottom));z-index:5}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;background:white;border-top:1px solid var(--border);padding:10px 8px calc(10px + env(safe-area-inset-bottom));z-index:5}
 .bottom-nav a{flex:1;max-width:150px;text-align:center;color:var(--muted);font-size:12px;padding:7px 2px}
 .bottom-nav a span{display:block;font-size:21px;margin-bottom:4px}
 .bottom-nav a.active{color:var(--green);font-weight:bold}
-/* Profile and login panels */
 .overlay{display:none;position:fixed;inset:0;background:#10251c99;z-index:10;overflow:auto;padding:22px}
 .overlay.show{display:grid;place-items:center}
-.dialog{background:white;border-radius:19px;padding:25px;width:min(440px,100%);max-height:90vh;overflow:auto}
+.dialog{background:white;border-radius:19px;padding:25px;width:min(460px,100%);max-height:92vh;overflow:auto}
 .dialog h2{margin-top:0}
 .close{float:right;border:0;background:#edf5ef;border-radius:8px;padding:8px 12px}
 .field{width:100%;padding:13px;margin:9px 0;border:1px solid var(--border);border-radius:10px}
 .action{width:100%;border:0;border-radius:10px;padding:13px;margin-top:9px;background:var(--green);color:white;font-weight:bold}
 .secondary{background:#edf5ef;color:var(--dark)}
 .text-button{border:0;background:none;color:var(--green);padding:13px 0}
-.profile-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid var(--border);border-radius:12px;background:white;margin:9px 0}
-.avatar{width:42px;height:42px;border-radius:13px;background:#e5f4e9;color:var(--green);display:grid;place-items:center;font-weight:bold}
+.profile-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid var(--border);border-radius:12px;background:white;margin:9px 0;color:var(--text)}
+.profile-item:hover{border-color:var(--green)}
+.avatar{width:42px;height:42px;border-radius:13px;background:#e5f4e9;color:var(--green);display:grid;place-items:center;font-weight:bold;flex-shrink:0}
 .profile-info{flex:1}
 .profile-info small{display:block;color:var(--muted);margin-top:4px}
 .message{font-size:13px;color:#b53c3c;line-height:1.5;min-height:18px}
-.notice{font-size:13px;color:var(--dark);background:#edf5ef;padding:11px;border-radius:9px;line-height:1.5}
+.notice{font-size:13px;color:var(--dark);background:#edf5ef;padding:11px;border-radius:9px;line-height:1.5;margin:12px 0}
+.pending-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--border)}
+.pending-item strong{display:block}
+.pending-item small{color:var(--muted)}
+.approve{border:0;background:var(--green);color:white;padding:9px 12px;border-radius:8px;font-weight:bold;white-space:nowrap}
+.owner-tools{margin-top:16px;padding-top:15px;border-top:1px solid var(--border)}
+.owner-tools h3{margin:0 0 8px;font-size:17px}
 @media(max-width:600px){
  header{height:65px;padding:0 5%}
  main{width:90%;padding-top:35px}
@@ -89,7 +88,6 @@ main{width:min(1050px,88%);margin:auto;padding:55px 0 120px}
       <h2>Your Apps</h2>
       <span class="count">1 app</span>
     </div>
-
     <article class="app-card">
       <div class="app-icon">✓</div>
       <h3>Productivity App</h3>
@@ -119,20 +117,27 @@ main{width:min(1050px,88%);margin:auto;padding:55px 0 120px}
   <a href="#profile" onclick="openProfiles();return false"><span>○</span>Profile</a>
 </nav>
 
-<!-- Profile selection -->
 <div class="overlay" id="profileOverlay">
   <div class="dialog">
     <button class="close" onclick="closeDialogs()">✕</button>
     <h2>My Profile</h2>
     <p style="color:var(--muted)">Choose your profile to continue.</p>
+    <div id="signedInStatus"></div>
     <div id="profileList"></div>
+
+    <div id="ownerTools" class="owner-tools" style="display:none">
+      <h3>Pending profile requests</h3>
+      <p class="count">Approve profiles to let them sign in.</p>
+      <div id="pendingList"></div>
+    </div>
+
     <div id="profileMessage" class="message"></div>
     <button class="action" onclick="showCreate()">＋ Add a profile</button>
-    <p class="notice">Profiles are saved in device-managed browser storage.</p>
+    <button id="signOutButton" class="action secondary" style="display:none" onclick="signOut()">Sign out of current profile</button>
+    <p class="notice">Profiles are saved in device-managed browser storage. Approval controls appear after the Main Owner signs in.</p>
   </div>
 </div>
 
-<!-- PIN login -->
 <div class="overlay" id="loginOverlay">
   <div class="dialog">
     <button class="close" onclick="closeDialogs()">✕</button>
@@ -145,7 +150,6 @@ main{width:min(1050px,88%);margin:auto;padding:55px 0 120px}
   </div>
 </div>
 
-<!-- Create profile -->
 <div class="overlay" id="createOverlay">
   <div class="dialog">
     <button class="close" onclick="closeDialogs()">✕</button>
@@ -164,35 +168,36 @@ main{width:min(1050px,88%);margin:auto;padding:55px 0 120px}
 <script>
 "use strict";
 
-let selectedProfile = null;
+const ACTIVE_PROFILE_KEY="appsyed_active_profile";
+let selectedProfile=null;
+let activeProfile=null;
 
 function closeDialogs(){
   document.querySelectorAll(".overlay").forEach(el=>el.classList.remove("show"));
 }
-function openProfiles(){
+function showOverlay(id){
   closeDialogs();
-  document.getElementById("profileOverlay").classList.add("show");
+  document.getElementById(id).classList.add("show");
+}
+function openProfiles(){
+  showOverlay("profileOverlay");
   loadProfiles();
 }
-function backToProfiles(){
-  closeDialogs();
-  openProfiles();
-}
+function backToProfiles(){openProfiles();}
+
 function showCreate(){
-  closeDialogs();
+  showOverlay("createOverlay");
   document.getElementById("createMessage").textContent="";
   document.getElementById("newName").value="";
   document.getElementById("newPin").value="";
   document.getElementById("confirmPin").value="";
-  document.getElementById("createOverlay").classList.add("show");
 }
 function showLogin(profile){
   selectedProfile=profile;
-  closeDialogs();
+  showOverlay("loginOverlay");
   document.getElementById("loginTitle").textContent="Hello, "+profile.name;
   document.getElementById("loginPin").value="";
   document.getElementById("loginMessage").textContent="";
-  document.getElementById("loginOverlay").classList.add("show");
 }
 function bytesToBase64(bytes){
   return btoa(Array.from(bytes).map(b=>String.fromCharCode(b)).join(""));
@@ -201,124 +206,264 @@ async function hashPin(pin,salt){
   const key=await crypto.subtle.importKey(
     "raw",new TextEncoder().encode(pin),"PBKDF2",false,["deriveBits"]
   );
-  const result=await crypto.subtle.deriveBits({
+  const bits=await crypto.subtle.deriveBits({
     name:"PBKDF2",salt,iterations:150000,hash:"SHA-256"
   },key,256);
-  return bytesToBase64(new Uint8Array(result));
+  return bytesToBase64(new Uint8Array(bits));
 }
+
 async function createProfile(){
   const message=document.getElementById("createMessage");
   const name=document.getElementById("newName").value.trim();
   const pin=document.getElementById("newPin").value;
-  const confirm=document.getElementById("confirmPin").value;
+  const confirmation=document.getElementById("confirmPin").value;
   message.textContent="";
 
   if(!name){message.textContent="Enter a profile name.";return;}
   if(!/^\d{4,8}$/.test(pin)){message.textContent="PIN must be 4–8 digits.";return;}
-  if(pin!==confirm){message.textContent="The PINs do not match.";return;}
+  if(pin!==confirmation){message.textContent="The PINs do not match.";return;}
 
   try{
     const profiles=await AppSyedStorage.getProfiles();
-    const owner=profiles.length===0;
+    const isFirst=profiles.length===0;
     const salt=crypto.getRandomValues(new Uint8Array(16));
+
     const profile={
       id:crypto.randomUUID(),
       name,
-      role:owner?"Main Owner":"Family Member",
-      status:owner?"approved":"pending",
+      role:isFirst?"Main Owner":"Family Member",
+      status:isFirst?"approved":"pending",
       pinSalt:bytesToBase64(salt),
       pinHash:await hashPin(pin,salt),
       createdAt:new Date().toISOString()
     };
+
     await AppSyedStorage.saveProfile(profile);
     closeDialogs();
     openProfiles();
-    if(!owner){
+
+    if(!isFirst){
       document.getElementById("profileMessage").textContent=
         "Profile request saved. The Main Owner must approve it.";
     }
   }catch(error){
-    message.textContent=error.message||"Could not save the profile.";
+    message.textContent=error.message||"Could not save this profile.";
   }
 }
+
 async function loadProfiles(){
   const list=document.getElementById("profileList");
   const message=document.getElementById("profileMessage");
+  const ownerTools=document.getElementById("ownerTools");
+  const signedIn=document.getElementById("signedInStatus");
+  const signOut=document.getElementById("signOutButton");
+
   list.replaceChildren();
   message.textContent="";
+  ownerTools.style.display="none";
+  signedIn.replaceChildren();
+  signOut.style.display="none";
+
   try{
     const profiles=await AppSyedStorage.getProfiles();
+    const activeId=sessionStorage.getItem(ACTIVE_PROFILE_KEY);
+
+    activeProfile=activeId?
+      profiles.find(p=>p.id===activeId&&p.status==="approved")||null:null;
+
+    if(!activeProfile&&activeId){
+      sessionStorage.removeItem(ACTIVE_PROFILE_KEY);
+    }
+
     const approved=profiles.filter(p=>p.status==="approved");
     const pending=profiles.filter(p=>p.status==="pending");
 
+    if(activeProfile){
+      const box=document.createElement("div");
+      box.className="notice";
+      box.textContent="Signed in as "+activeProfile.name+" ("+activeProfile.role+").";
+      signedIn.append(box);
+      signOut.style.display="block";
+    }
+
     if(!approved.length){
       const note=document.createElement("p");
+      note.className="count";
       note.textContent="No profiles yet. Create the first profile to become Main Owner.";
-      note.style.color="var(--muted)";
       list.append(note);
     }
 
     approved.forEach(profile=>{
       const button=document.createElement("button");
       button.className="profile-item";
+
       const avatar=document.createElement("span");
       avatar.className="avatar";
       avatar.textContent=profile.name.charAt(0).toUpperCase();
+
       const info=document.createElement("span");
       info.className="profile-info";
+
       const name=document.createElement("strong");
       name.textContent=profile.name;
+
       const role=document.createElement("small");
       role.textContent=profile.role;
+
       info.append(name,role);
       button.append(avatar,info);
       button.onclick=()=>showLogin(profile);
       list.append(button);
     });
 
-    if(pending.length){
+    if(activeProfile&&activeProfile.role==="Main Owner"){
+      ownerTools.style.display="block";
+      const pendingList=document.getElementById("pendingList");
+      pendingList.replaceChildren();
+
+      if(!pending.length){
+        const note=document.createElement("p");
+        note.className="count";
+        note.textContent="There are no pending requests.";
+        pendingList.append(note);
+      }else{
+        pending.forEach(request=>{
+          const row=document.createElement("div");
+          row.className="pending-item";
+
+          const details=document.createElement("div");
+          const name=document.createElement("strong");
+          name.textContent=request.name;
+          const when=document.createElement("small");
+          when.textContent="Requested profile";
+          details.append(name,when);
+
+          const approve=document.createElement("button");
+          approve.className="approve";
+          approve.textContent="Approve";
+          approve.onclick=()=>approveProfile(request.id);
+
+          row.append(details,approve);
+          pendingList.append(row);
+        });
+      }
+    }else if(pending.length){
       const note=document.createElement("p");
       note.className="notice";
-      note.textContent=pending.length+" profile request(s) awaiting owner approval.";
+      note.textContent=pending.length+" profile request(s) awaiting Main Owner approval.";
       list.append(note);
     }
   }catch(error){
-    message.textContent="Could not read device storage. Check that storage.js is saved.";
+    message.textContent="Could not read device storage. Check that src/storage.js is saved.";
   }
 }
+
 async function login(){
   const message=document.getElementById("loginMessage");
   const pin=document.getElementById("loginPin").value;
   message.textContent="";
-  if(!selectedProfile){message.textContent="Select a profile first.";return;}
-  if(!/^\d{4,8}$/.test(pin)){message.textContent="Enter your 4–8 digit PIN.";return;}
+
+  if(!selectedProfile){
+    message.textContent="Choose a profile first.";
+    return;
+  }
+  if(!/^\d{4,8}$/.test(pin)){
+    message.textContent="Enter your 4–8 digit PIN.";
+    return;
+  }
+
   try{
     const profile=await AppSyedStorage.getProfile(selectedProfile.id);
+
     if(!profile||profile.status!=="approved"){
-      message.textContent="This profile is not approved yet.";return;
+      message.textContent="This profile has not been approved yet.";
+      return;
     }
+
     const salt=Uint8Array.from(atob(profile.pinSalt),c=>c.charCodeAt(0));
-    const entered=await hashPin(pin,salt);
-    if(entered!==profile.pinHash){
-      message.textContent="Incorrect PIN. Try again.";return;
+    const enteredHash=await hashPin(pin,salt);
+
+    if(enteredHash!==profile.pinHash){
+      message.textContent="Incorrect PIN. Try again.";
+      return;
     }
-    sessionStorage.setItem("appsyed_active_profile",profile.id);
-    closeDialogs();
-    alert("Welcome, "+profile.name+"!");
+
+    sessionStorage.setItem(ACTIVE_PROFILE_KEY,profile.id);
+    selectedProfile=null;
+
+    if(profile.role==="Main Owner"){
+      openProfiles();
+      document.getElementById("profileMessage").textContent=
+        "Main Owner signed in. You can approve pending requests below.";
+    }else{
+      closeDialogs();
+      alert("Signed in as "+profile.name+". You can now open the Productivity App.");
+    }
   }catch(error){
     message.textContent="Could not verify your PIN. Please try again.";
   }
 }
+
+async function approveProfile(profileId){
+  const message=document.getElementById("profileMessage");
+
+  try{
+    const ownerId=sessionStorage.getItem(ACTIVE_PROFILE_KEY);
+    const owner=ownerId?await AppSyedStorage.getProfile(ownerId):null;
+
+    if(!owner||owner.role!=="Main Owner"||owner.status!=="approved"){
+      message.textContent="Only the signed-in Main Owner can approve profiles.";
+      return;
+    }
+
+    const request=await AppSyedStorage.getProfile(profileId);
+
+    if(!request||request.status!=="pending"){
+      message.textContent="This request is no longer pending.";
+      return;
+    }
+
+    request.status="approved";
+    request.approvedAt=new Date().toISOString();
+    request.approvedBy=owner.id;
+
+    await AppSyedStorage.saveProfile(request);
+    await loadProfiles();
+
+    document.getElementById("profileMessage").textContent=
+      request.name+" has been approved and can now sign in.";
+  }catch(error){
+    message.textContent="Could not approve this profile. Please try again.";
+  }
+}
+
+function signOut(){
+  sessionStorage.removeItem(ACTIVE_PROFILE_KEY);
+  activeProfile=null;
+  openProfiles();
+  document.getElementById("profileMessage").textContent="You have signed out.";
+}
+
 function showCreatorMessage(){
   document.getElementById("creatorMessage").textContent=
-    "Creator Studio is coming next. App creation and publishing will be free.";
+    "Creator Studio is planned. App creation and publishing will be free.";
 }
+
 document.querySelectorAll(".bottom-nav a").forEach(link=>{
   link.addEventListener("click",()=>{
-    document.querySelectorAll(".bottom-nav a").forEach(a=>a.classList.remove("active"));
+    document.querySelectorAll(".bottom-nav a").forEach(item=>item.classList.remove("active"));
     link.classList.add("active");
   });
 });
+
+async function initialise(){
+  try{
+    await AppSyedStorage.openDatabase();
+  }catch(error){
+    console.error("AppSyed storage could not open:",error);
+  }
+}
+initialise();
 </script>
 </body>
 </html>
