@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,608 +8,318 @@
 <title>AppSyed</title>
 <style>
 :root {
-  --green: #16845b;
-  --dark: #096344;
-  --background: #f5f9f6;
-  --text: #18352a;
-  --muted: #718078;
-  --border: #e5eee8;
+  --green:#16845b;
+  --dark:#10583e;
+  --bg:#f5f9f6;
+  --text:#19352a;
+  --muted:#718078;
+  --border:#e5eee8;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--background);
-  color: var(--text);
-}
-button, input { font: inherit; }
-button { cursor: pointer; }
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: block; }
-.wrap {
-  width: min(460px, 92%);
-  margin: auto;
-  padding: 42px 0;
-}
-.brand {
-  text-align: center;
-  color: var(--dark);
-  font-size: 36px;
-  font-weight: 800;
-  margin-bottom: 28px;
-}
-.brand span { color: var(--green); }
-.panel {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 10px 30px #18352a08;
-}
-.muted { color: var(--muted); line-height: 1.6; }
-.profile-list { display: grid; gap: 10px; margin: 20px 0; }
-.profile {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  background: white;
-  text-align: left;
-  color: var(--text);
-}
-.profile:hover { border-color: var(--green); }
-.avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
-  background: #e5f4e9;
-  color: var(--green);
-  display: grid;
-  place-items: center;
-  font-weight: bold;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-.profile-info { flex: 1; }
-.profile-info small {
-  display: block;
-  color: var(--muted);
-  margin-top: 4px;
-}
-.field {
-  display: block;
-  width: 100%;
-  padding: 13px;
-  margin: 12px 0;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  outline-color: var(--green);
-}
-.btn {
-  width: 100%;
-  border: 0;
-  border-radius: 10px;
-  padding: 13px;
-  font-weight: bold;
-  margin-top: 8px;
-}
-.primary { background: var(--green); color: white; }
-.secondary { background: #edf5ef; color: var(--dark); }
-.text-button {
-  background: none;
-  border: 0;
-  color: var(--green);
-  padding: 12px 0;
-  font-weight: bold;
-}
-.message {
-  color: #b83c3c;
-  font-size: 13px;
-  min-height: 18px;
-  line-height: 1.5;
-}
-.notice {
-  padding: 12px;
-  border-radius: 10px;
-  background: #edf5ef;
-  color: var(--dark);
-  line-height: 1.5;
-  font-size: 14px;
-  margin: 14px 0;
-}
-.home {
-  width: min(1050px, 90%);
-  margin: auto;
-  padding: 35px 0 110px;
-}
-.top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 17px 5%;
-  background: white;
-  border-bottom: 1px solid var(--border);
-}
-.top .brand { font-size: 25px; margin: 0; }
-.top button {
-  padding: 10px 13px;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 9px;
-}
-.home h1 { font-size: clamp(32px, 5vw, 48px); }
-.home h1 span { color: var(--green); }
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-  margin-top: 25px;
-}
-.app-card, .creator-card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 24px;
-}
-.creator-card { background: #eaf5ed; margin-top: 22px; }
-.app-icon {
-  width: 55px;
-  height: 55px;
-  border-radius: 15px;
-  background: #e5f4e9;
-  color: var(--green);
-  display: grid;
-  place-items: center;
-  font-size: 26px;
-}
-.open-link {
-  display: inline-block;
-  background: var(--green);
-  color: white;
-  text-decoration: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: bold;
-  margin-top: 8px;
-}
-.request {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-top: 1px solid var(--border);
-}
-.request button {
-  border: 0;
-  background: var(--green);
-  color: white;
-  border-radius: 8px;
-  padding: 9px 12px;
-}
-@media(max-width: 480px) {
-  .wrap { padding-top: 28px; }
-  .panel { padding: 19px; }
-  .top { padding: 14px 4%; }
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input{font:inherit}
+button,a{cursor:pointer}
+a{text-decoration:none;color:inherit}
+header{height:76px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 7%}
+.logo{font-size:27px;font-weight:800;color:var(--dark)}
+.logo span{color:var(--green)}
+.profile-btn{border:1px solid var(--border);background:white;padding:11px 17px;border-radius:10px;color:var(--dark);font-weight:bold}
+main{width:min(1050px,88%);margin:auto;padding:55px 0 120px}
+.hero{padding:25px 0 45px}
+.eyebrow{color:var(--green);font-size:13px;font-weight:bold;letter-spacing:2px}
+.hero h1{font-size:clamp(38px,6vw,65px);line-height:1.12;margin:12px 0}
+.hero h1 span{color:var(--green)}
+.hero p{font-size:17px;color:var(--muted);line-height:1.7}
+.section-heading{display:flex;align-items:center;justify-content:space-between;margin:25px 0 17px}
+.section-heading h2{margin:0;font-size:25px}
+.count{color:var(--muted);font-size:14px}
+.app-card{background:white;border:1px solid var(--border);border-radius:19px;padding:25px;max-width:470px;box-shadow:0 8px 25px #18352a08}
+.app-icon{height:58px;width:58px;border-radius:16px;background:#e5f4e9;color:var(--green);display:grid;place-items:center;font-size:30px}
+.app-card h3{font-size:21px;margin:19px 0 8px}
+.app-card p,.creator p{color:var(--muted);line-height:1.6}
+.open-btn,.create-btn{display:inline-block;border:0;background:var(--green);color:white;padding:12px 19px;border-radius:10px;font-weight:bold;margin-top:9px}
+.creator{margin-top:28px;padding:25px;border-radius:19px;background:#eaf5ed;border:1px solid #dcece0}
+.creator h2{margin:0}
+.creator button{background:var(--dark)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:0;background:white;border-top:1px solid var(--border);padding:10px 8px calc(10px + env(safe-area-inset-bottom));z-index:5}
+.bottom-nav a{flex:1;max-width:150px;text-align:center;color:var(--muted);font-size:12px;padding:7px 2px}
+.bottom-nav a span{display:block;font-size:21px;margin-bottom:4px}
+.bottom-nav a.active{color:var(--green);font-weight:bold}
+/* Profile and login panels */
+.overlay{display:none;position:fixed;inset:0;background:#10251c99;z-index:10;overflow:auto;padding:22px}
+.overlay.show{display:grid;place-items:center}
+.dialog{background:white;border-radius:19px;padding:25px;width:min(440px,100%);max-height:90vh;overflow:auto}
+.dialog h2{margin-top:0}
+.close{float:right;border:0;background:#edf5ef;border-radius:8px;padding:8px 12px}
+.field{width:100%;padding:13px;margin:9px 0;border:1px solid var(--border);border-radius:10px}
+.action{width:100%;border:0;border-radius:10px;padding:13px;margin-top:9px;background:var(--green);color:white;font-weight:bold}
+.secondary{background:#edf5ef;color:var(--dark)}
+.text-button{border:0;background:none;color:var(--green);padding:13px 0}
+.profile-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid var(--border);border-radius:12px;background:white;margin:9px 0}
+.avatar{width:42px;height:42px;border-radius:13px;background:#e5f4e9;color:var(--green);display:grid;place-items:center;font-weight:bold}
+.profile-info{flex:1}
+.profile-info small{display:block;color:var(--muted);margin-top:4px}
+.message{font-size:13px;color:#b53c3c;line-height:1.5;min-height:18px}
+.notice{font-size:13px;color:var(--dark);background:#edf5ef;padding:11px;border-radius:9px;line-height:1.5}
+@media(max-width:600px){
+ header{height:65px;padding:0 5%}
+ main{width:90%;padding-top:35px}
+ .hero{padding-bottom:28px}
+ .hero p{font-size:15px}
+ .dialog{padding:20px}
 }
 </style>
 </head>
-
 <body>
 
-<section id="profileScreen" class="screen active">
-  <div class="wrap">
-    <div class="brand">AppSyed<span>.</span></div>
-    <div class="panel">
-      <h2>Welcome to AppSyed</h2>
-      <p class="muted">Choose your profile to continue.</p>
-      <div id="profileList" class="profile-list"></div>
-      <div id="profileMessage" class="message"></div>
-      <button class="btn primary" onclick="showCreate()">＋ Add a profile</button>
-      <p class="muted" style="font-size:12px;margin-top:16px">
-        Your profiles are saved in this browser's device storage.
-      </p>
-    </div>
-  </div>
-</section>
+<header>
+  <a class="logo" href="index.html">AppSyed<span>.</span></a>
+  <button class="profile-btn" onclick="openProfiles()">My Profile</button>
+</header>
 
-<section id="loginScreen" class="screen">
-  <div class="wrap">
-    <div class="brand">AppSyed<span>.</span></div>
-    <div class="panel">
-      <h2 id="loginHeading">Enter your PIN</h2>
-      <p id="loginDescription" class="muted"></p>
-      <input id="loginPin" class="field" type="password"
-        inputmode="numeric" autocomplete="current-password"
-        placeholder="Enter your PIN">
-      <div id="loginMessage" class="message"></div>
-      <button class="btn primary" onclick="login()">Continue</button>
-      <button class="text-button" onclick="showProfiles()">← Back to profiles</button>
-    </div>
-  </div>
-</section>
+<main>
+  <section class="hero" id="home">
+    <div class="eyebrow">WELCOME TO APPSYED</div>
+    <h1>Your digital world,<br><span>all in one place.</span></h1>
+    <p>Discover applications and explore new possibilities.</p>
+  </section>
 
-<section id="createScreen" class="screen">
-  <div class="wrap">
-    <div class="brand">AppSyed<span>.</span></div>
-    <div class="panel">
-      <h2>Create a profile</h2>
-      <p class="muted">Set up a separate profile with its own PIN.</p>
-
-      <input id="newName" class="field" maxlength="35"
-        autocomplete="off" placeholder="Profile name">
-
-      <input id="newPin" class="field" type="password"
-        inputmode="numeric" maxlength="8"
-        autocomplete="new-password" placeholder="Create a 4–8 digit PIN">
-
-      <input id="confirmPin" class="field" type="password"
-        inputmode="numeric" maxlength="8"
-        autocomplete="new-password" placeholder="Confirm your PIN">
-
-      <div id="createMessage" class="message"></div>
-      <div id="createNotice" class="notice" style="display:none"></div>
-
-      <button class="btn primary" onclick="createProfile()">Create profile</button>
-      <button class="text-button" onclick="showProfiles()">← Back</button>
-    </div>
-  </div>
-</section>
-
-<section id="homeScreen" class="screen">
-  <div class="top">
-    <div class="brand">AppSyed<span>.</span></div>
-    <button onclick="showProfiles()">Switch profile</button>
-  </div>
-
-  <main class="home">
-    <p class="muted" id="welcomeRole"></p>
-    <h1>Welcome, <span id="welcomeName">there</span>!</h1>
-    <p class="muted">Your digital world, all in one place.</p>
-
-    <div class="cards">
-      <article class="app-card">
-        <div class="app-icon">✓</div>
-        <h2>Productivity</h2>
-        <p class="muted">Organise your tasks, plans and daily progress.</p>
-        <a class="open-link" href="src/apps/productivity.html">Open app</a>
-      </article>
-
-      <article class="app-card">
-        <div class="app-icon">＋</div>
-        <h2>Creator Studio</h2>
-        <p class="muted">Create and prepare your own apps for AppSyed.</p>
-        <button class="btn secondary" onclick="creatorNotice()">
-          Open Creator Studio
-        </button>
-        <p id="creatorMessage" class="muted" style="font-size:13px"></p>
-      </article>
+  <section id="discover">
+    <div class="section-heading">
+      <h2>Your Apps</h2>
+      <span class="count">1 app</span>
     </div>
 
-    <section id="ownerArea" class="creator-card" style="display:none">
-      <h2>Family profile requests</h2>
-      <p class="muted">Review requests to add a family profile.</p>
-      <div id="pendingRequests"></div>
-    </section>
-  </main>
-</section>
+    <article class="app-card">
+      <div class="app-icon">✓</div>
+      <h3>Productivity App</h3>
+      <p>Tasks, calendar, habits, goals and more.</p>
+      <a class="open-btn" href="src/apps/productivity.html">Open App</a>
+    </article>
+  </section>
+
+  <section class="creator" id="create">
+    <h2>Creator Studio</h2>
+    <p>Have an idea? Create your own application and publish it on AppSyed.</p>
+    <button class="create-btn" onclick="showCreatorMessage()">＋ Create an App</button>
+    <p id="creatorMessage" aria-live="polite"></p>
+  </section>
+
+  <section id="library" style="padding-top:25px">
+    <div class="section-heading"><h2>Library</h2></div>
+    <p class="count">Your saved apps will appear here.</p>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <a href="#home" class="active"><span>⌂</span>Home</a>
+  <a href="#discover"><span>◇</span>Discover</a>
+  <a href="#create"><span>＋</span>Create</a>
+  <a href="#library"><span>▤</span>Library</a>
+  <a href="#profile" onclick="openProfiles();return false"><span>○</span>Profile</a>
+</nav>
+
+<!-- Profile selection -->
+<div class="overlay" id="profileOverlay">
+  <div class="dialog">
+    <button class="close" onclick="closeDialogs()">✕</button>
+    <h2>My Profile</h2>
+    <p style="color:var(--muted)">Choose your profile to continue.</p>
+    <div id="profileList"></div>
+    <div id="profileMessage" class="message"></div>
+    <button class="action" onclick="showCreate()">＋ Add a profile</button>
+    <p class="notice">Profiles are saved in device-managed browser storage.</p>
+  </div>
+</div>
+
+<!-- PIN login -->
+<div class="overlay" id="loginOverlay">
+  <div class="dialog">
+    <button class="close" onclick="closeDialogs()">✕</button>
+    <h2 id="loginTitle">Enter your PIN</h2>
+    <p style="color:var(--muted)">Enter your PIN to open your profile.</p>
+    <input id="loginPin" class="field" type="password" inputmode="numeric" maxlength="8" placeholder="4–8 digit PIN">
+    <div id="loginMessage" class="message"></div>
+    <button class="action" onclick="login()">Continue</button>
+    <button class="text-button" onclick="backToProfiles()">← Back to profiles</button>
+  </div>
+</div>
+
+<!-- Create profile -->
+<div class="overlay" id="createOverlay">
+  <div class="dialog">
+    <button class="close" onclick="closeDialogs()">✕</button>
+    <h2>Create a profile</h2>
+    <p style="color:var(--muted)">Create a separate profile with its own PIN.</p>
+    <input id="newName" class="field" maxlength="35" placeholder="Profile name">
+    <input id="newPin" class="field" type="password" inputmode="numeric" maxlength="8" placeholder="Create a 4–8 digit PIN">
+    <input id="confirmPin" class="field" type="password" inputmode="numeric" maxlength="8" placeholder="Confirm PIN">
+    <div id="createMessage" class="message"></div>
+    <button class="action" onclick="createProfile()">Create profile</button>
+    <button class="text-button" onclick="backToProfiles()">← Back</button>
+  </div>
+</div>
 
 <script src="src/storage.js"></script>
 <script>
 "use strict";
 
-const ACTIVE_PROFILE_KEY = "appsyed_active_profile";
 let selectedProfile = null;
-let currentProfile = null;
 
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.remove("active");
-  });
-  document.getElementById(id).classList.add("active");
+function closeDialogs(){
+  document.querySelectorAll(".overlay").forEach(el=>el.classList.remove("show"));
 }
-
-function showProfiles() {
-  sessionStorage.removeItem(ACTIVE_PROFILE_KEY);
-  selectedProfile = null;
-  currentProfile = null;
-  showScreen("profileScreen");
+function openProfiles(){
+  closeDialogs();
+  document.getElementById("profileOverlay").classList.add("show");
   loadProfiles();
 }
-
-function showCreate() {
-  document.getElementById("newName").value = "";
-  document.getElementById("newPin").value = "";
-  document.getElementById("confirmPin").value = "";
-  document.getElementById("createMessage").textContent = "";
-  showScreen("createScreen");
+function backToProfiles(){
+  closeDialogs();
+  openProfiles();
 }
-
-function showLogin(profile) {
-  selectedProfile = profile;
-  document.getElementById("loginHeading").textContent =
-    "Hello, " + profile.name;
-  document.getElementById("loginDescription").textContent =
-    "Enter your PIN to open your profile.";
-  document.getElementById("loginPin").value = "";
-  document.getElementById("loginMessage").textContent = "";
-  showScreen("loginScreen");
-  document.getElementById("loginPin").focus();
+function showCreate(){
+  closeDialogs();
+  document.getElementById("createMessage").textContent="";
+  document.getElementById("newName").value="";
+  document.getElementById("newPin").value="";
+  document.getElementById("confirmPin").value="";
+  document.getElementById("createOverlay").classList.add("show");
 }
-
-function bytesToBase64(bytes) {
-  let binary = "";
-  bytes.forEach(byte => binary += String.fromCharCode(byte));
-  return btoa(binary);
+function showLogin(profile){
+  selectedProfile=profile;
+  closeDialogs();
+  document.getElementById("loginTitle").textContent="Hello, "+profile.name;
+  document.getElementById("loginPin").value="";
+  document.getElementById("loginMessage").textContent="";
+  document.getElementById("loginOverlay").classList.add("show");
 }
-
-async function makePinHash(pin, saltBytes) {
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(pin),
-    "PBKDF2",
-    false,
-    ["deriveBits"]
+function bytesToBase64(bytes){
+  return btoa(Array.from(bytes).map(b=>String.fromCharCode(b)).join(""));
+}
+async function hashPin(pin,salt){
+  const key=await crypto.subtle.importKey(
+    "raw",new TextEncoder().encode(pin),"PBKDF2",false,["deriveBits"]
   );
-
-  const bits = await crypto.subtle.deriveBits({
-    name: "PBKDF2",
-    salt: saltBytes,
-    iterations: 150000,
-    hash: "SHA-256"
-  }, key, 256);
-
-  return bytesToBase64(new Uint8Array(bits));
+  const result=await crypto.subtle.deriveBits({
+    name:"PBKDF2",salt,iterations:150000,hash:"SHA-256"
+  },key,256);
+  return bytesToBase64(new Uint8Array(result));
 }
+async function createProfile(){
+  const message=document.getElementById("createMessage");
+  const name=document.getElementById("newName").value.trim();
+  const pin=document.getElementById("newPin").value;
+  const confirm=document.getElementById("confirmPin").value;
+  message.textContent="";
 
-async function createProfile() {
-  const message = document.getElementById("createMessage");
-  const name = document.getElementById("newName").value.trim();
-  const pin = document.getElementById("newPin").value;
-  const confirm = document.getElementById("confirmPin").value;
+  if(!name){message.textContent="Enter a profile name.";return;}
+  if(!/^\d{4,8}$/.test(pin)){message.textContent="PIN must be 4–8 digits.";return;}
+  if(pin!==confirm){message.textContent="The PINs do not match.";return;}
 
-  message.textContent = "";
-
-  if (!name) {
-    message.textContent = "Please enter a profile name.";
-    return;
-  }
-
-  if (!/^\d{4,8}$/.test(pin)) {
-    message.textContent = "Your PIN must contain 4 to 8 digits.";
-    return;
-  }
-
-  if (pin !== confirm) {
-    message.textContent = "The PINs do not match.";
-    return;
-  }
-
-  try {
-    if (!window.crypto || !crypto.subtle) {
-      throw new Error("Secure PIN setup requires the HTTPS version of AppSyed.");
-    }
-
-    const existingProfiles = await AppSyedStorage.getProfiles();
-    const isFirstProfile = existingProfiles.length === 0;
-    const salt = crypto.getRandomValues(new Uint8Array(16));
-    const pinHash = await makePinHash(pin, salt);
-
-    const profile = {
-      id: crypto.randomUUID(),
+  try{
+    const profiles=await AppSyedStorage.getProfiles();
+    const owner=profiles.length===0;
+    const salt=crypto.getRandomValues(new Uint8Array(16));
+    const profile={
+      id:crypto.randomUUID(),
       name,
-      role: isFirstProfile ? "Main Owner" : "Family Member",
-      status: isFirstProfile ? "approved" : "pending",
-      pinSalt: bytesToBase64(salt),
-      pinHash,
-      createdAt: new Date().toISOString()
+      role:owner?"Main Owner":"Family Member",
+      status:owner?"approved":"pending",
+      pinSalt:bytesToBase64(salt),
+      pinHash:await hashPin(pin,salt),
+      createdAt:new Date().toISOString()
     };
-
     await AppSyedStorage.saveProfile(profile);
-
-    if (isFirstProfile) {
-      showProfiles();
-    } else {
-      document.getElementById("createNotice").style.display = "block";
-      document.getElementById("createNotice").textContent =
-        "Your profile request has been saved. The Main Owner must approve it before you can sign in.";
-      message.textContent = "";
-      document.getElementById("newName").value = "";
-      document.getElementById("newPin").value = "";
-      document.getElementById("confirmPin").value = "";
+    closeDialogs();
+    openProfiles();
+    if(!owner){
+      document.getElementById("profileMessage").textContent=
+        "Profile request saved. The Main Owner must approve it.";
     }
-  } catch (error) {
-    message.textContent = error.message || "Could not save this profile.";
+  }catch(error){
+    message.textContent=error.message||"Could not save the profile.";
   }
 }
+async function loadProfiles(){
+  const list=document.getElementById("profileList");
+  const message=document.getElementById("profileMessage");
+  list.replaceChildren();
+  message.textContent="";
+  try{
+    const profiles=await AppSyedStorage.getProfiles();
+    const approved=profiles.filter(p=>p.status==="approved");
+    const pending=profiles.filter(p=>p.status==="pending");
 
-async function loadProfiles() {
-  const list = document.getElementById("profileList");
-  const message = document.getElementById("profileMessage");
-  list.innerHTML = "";
-  message.textContent = "";
-
-  try {
-    const profiles = await AppSyedStorage.getProfiles();
-    const approved = profiles.filter(p => p.status === "approved");
-    const pending = profiles.filter(p => p.status === "pending");
-
-    if (approved.length === 0) {
-      list.innerHTML =
-        '<p class="muted">No profiles yet. Create the first profile to become the Main Owner.</p>';
+    if(!approved.length){
+      const note=document.createElement("p");
+      note.textContent="No profiles yet. Create the first profile to become Main Owner.";
+      note.style.color="var(--muted)";
+      list.append(note);
     }
 
-    approved.forEach(profile => {
-      const button = document.createElement("button");
-      button.className = "profile";
-
-      const avatar = document.createElement("span");
-      avatar.className = "avatar";
-      avatar.textContent = profile.name.charAt(0).toUpperCase();
-
-      const info = document.createElement("span");
-      info.className = "profile-info";
-
-      const name = document.createElement("strong");
-      name.textContent = profile.name;
-
-      const role = document.createElement("small");
-      role.textContent = profile.role;
-
-      info.append(name, role);
-      button.append(avatar, info);
-      button.onclick = () => showLogin(profile);
-      list.appendChild(button);
+    approved.forEach(profile=>{
+      const button=document.createElement("button");
+      button.className="profile-item";
+      const avatar=document.createElement("span");
+      avatar.className="avatar";
+      avatar.textContent=profile.name.charAt(0).toUpperCase();
+      const info=document.createElement("span");
+      info.className="profile-info";
+      const name=document.createElement("strong");
+      name.textContent=profile.name;
+      const role=document.createElement("small");
+      role.textContent=profile.role;
+      info.append(name,role);
+      button.append(avatar,info);
+      button.onclick=()=>showLogin(profile);
+      list.append(button);
     });
 
-    if (pending.length > 0) {
-      const pendingNote = document.createElement("p");
-      pendingNote.className = "muted";
-      pendingNote.textContent =
-        pending.length + " profile request(s) waiting for Main Owner approval.";
-      list.appendChild(pendingNote);
+    if(pending.length){
+      const note=document.createElement("p");
+      note.className="notice";
+      note.textContent=pending.length+" profile request(s) awaiting owner approval.";
+      list.append(note);
     }
-  } catch (error) {
-    message.textContent =
-      "Could not open device storage. Please reload AppSyed and try again.";
+  }catch(error){
+    message.textContent="Could not read device storage. Check that storage.js is saved.";
   }
 }
-
-async function login() {
-  const message = document.getElementById("loginMessage");
-  const pin = document.getElementById("loginPin").value;
-  message.textContent = "";
-
-  if (!selectedProfile) {
-    message.textContent = "Please select a profile first.";
-    return;
-  }
-
-  if (!/^\d{4,8}$/.test(pin)) {
-    message.textContent = "Enter your 4–8 digit PIN.";
-    return;
-  }
-
-  try {
-    const profile = await AppSyedStorage.getProfile(selectedProfile.id);
-
-    if (!profile || profile.status !== "approved") {
-      message.textContent = "This profile is not approved yet.";
-      return;
+async function login(){
+  const message=document.getElementById("loginMessage");
+  const pin=document.getElementById("loginPin").value;
+  message.textContent="";
+  if(!selectedProfile){message.textContent="Select a profile first.";return;}
+  if(!/^\d{4,8}$/.test(pin)){message.textContent="Enter your 4–8 digit PIN.";return;}
+  try{
+    const profile=await AppSyedStorage.getProfile(selectedProfile.id);
+    if(!profile||profile.status!=="approved"){
+      message.textContent="This profile is not approved yet.";return;
     }
-
-    const salt = Uint8Array.from(
-      atob(profile.pinSalt),
-      character => character.charCodeAt(0)
-    );
-
-    const enteredHash = await makePinHash(pin, salt);
-
-    if (enteredHash !== profile.pinHash) {
-      message.textContent = "Incorrect PIN. Please try again.";
-      return;
+    const salt=Uint8Array.from(atob(profile.pinSalt),c=>c.charCodeAt(0));
+    const entered=await hashPin(pin,salt);
+    if(entered!==profile.pinHash){
+      message.textContent="Incorrect PIN. Try again.";return;
     }
-
-    currentProfile = profile;
-    sessionStorage.setItem(ACTIVE_PROFILE_KEY, profile.id);
-    openHome(profile);
-  } catch (error) {
-    message.textContent = "Could not check your PIN. Please try again.";
+    sessionStorage.setItem("appsyed_active_profile",profile.id);
+    closeDialogs();
+    alert("Welcome, "+profile.name+"!");
+  }catch(error){
+    message.textContent="Could not verify your PIN. Please try again.";
   }
 }
-
-async function openHome(profile) {
-  document.getElementById("welcomeName").textContent = profile.name;
-  document.getElementById("welcomeRole").textContent = profile.role;
-  showScreen("homeScreen");
-
-  const ownerArea = document.getElementById("ownerArea");
-  ownerArea.style.display =
-    profile.role === "Main Owner" ? "block" : "none";
-
-  if (profile.role === "Main Owner") {
-    await loadPendingRequests();
-  }
+function showCreatorMessage(){
+  document.getElementById("creatorMessage").textContent=
+    "Creator Studio is coming next. App creation and publishing will be free.";
 }
-
-async function loadPendingRequests() {
-  const container = document.getElementById("pendingRequests");
-  container.innerHTML = "";
-
-  try {
-    const profiles = await AppSyedStorage.getProfiles();
-    const pending = profiles.filter(p => p.status === "pending");
-
-    if (pending.length === 0) {
-      container.textContent = "No pending requests.";
-      return;
-    }
-
-    pending.forEach(profile => {
-      const row = document.createElement("div");
-      row.className = "request";
-
-      const label = document.createElement("span");
-      label.textContent = profile.name;
-
-      const approve = document.createElement("button");
-      approve.textContent = "Approve";
-      approve.onclick = async () => {
-        profile.status = "approved";
-        await AppSyedStorage.saveProfile(profile);
-        await loadPendingRequests();
-      };
-
-      row.append(label, approve);
-      container.appendChild(row);
-    });
-  } catch (error) {
-    container.textContent = "Could not load profile requests.";
-  }
-}
-
-function creatorNotice() {
-  document.getElementById("creatorMessage").textContent =
-    "Creator Studio is planned; its app-building tools are not ready yet.";
-}
-
-async function startApp() {
-  try {
-    if (!window.indexedDB) {
-      throw new Error("This browser does not support IndexedDB.");
-    }
-
-    await AppSyedStorage.openDatabase();
-
-    // Request persistent device storage where the browser allows it.
-    // The browser may decline this request.
-    if (navigator.storage && navigator.storage.persist) {
-      navigator.storage.persist().catch(() => false);
-    }
-
-    const activeId = sessionStorage.getItem(ACTIVE_PROFILE_KEY);
-
-    if (activeId) {
-      const profile = await AppSyedStorage.getProfile(activeId);
-
-      if (profile && profile.status === "approved") {
-        currentProfile = profile;
-        openHome(profile);
-        return;
-      }
-    }
-
-    showProfiles();
-  } catch (error) {
-    document.getElementById("profileMessage").textContent =
-      "AppSyed could not start its device storage. Please open it using the GitHub Pages HTTPS link.";
-  }
-}
-
-startApp();
+document.querySelectorAll(".bottom-nav a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    document.querySelectorAll(".bottom-nav a").forEach(a=>a.classList.remove("active"));
+    link.classList.add("active");
+  });
+});
 </script>
 </body>
 </html>
+
