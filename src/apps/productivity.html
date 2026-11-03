@@ -4,35 +4,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16845b">
 <title>AppSyed Productivity</title>
+
 <style>
-:root{--g:#16845b;--d:#10583e;--bg:#f4f8f5;--panel:#fff;--t:#19352a;--m:#718078;--b:#e5ece7;--soft:#eaf5ed}
-body.dark{--bg:#15221b;--panel:#203129;--t:#edf6ef;--m:#aab9af;--b:#35483c;--soft:#2b4234}
+:root{
+  --g:#16845b;--d:#10583e;--bg:#f4f8f5;--panel:#fff;
+  --t:#19352a;--m:#718078;--b:#e5ece7;--soft:#eaf5ed;
+}
+body.dark{
+  --bg:#15221b;--panel:#203129;--t:#edf6ef;
+  --m:#aab9af;--b:#35483c;--soft:#2b4234;
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--t);font-family:Arial,sans-serif}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .hide{display:none!important}
-header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--b);padding:15px 5%;display:flex;align-items:center;justify-content:space-between}
+header{
+  position:sticky;top:0;z-index:5;background:var(--panel);
+  border-bottom:1px solid var(--b);padding:15px 5%;
+  display:flex;align-items:center;justify-content:space-between
+}
 .logo{font-size:24px;font-weight:bold;color:var(--g);text-decoration:none}
 header small{color:var(--m)}
 main{width:min(1100px,92%);margin:auto;padding:25px 0 110px}
-.page{display:none}.page.active{display:block}
-h1{font-size:29px;margin:0 0 7px}h2{font-size:20px}
+.page{display:none}
+.page.active{display:block}
+h1{font-size:29px;margin:0 0 7px}
+h2{font-size:20px}
 .muted,.note{color:var(--m);line-height:1.5}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:13px}
-.card,.task,.member-card{background:var(--panel);border:1px solid var(--b);border-radius:14px;padding:17px;box-shadow:0 6px 20px #153d2709}
-.stat-label{color:var(--m);font-size:13px}.stat-number{font-size:28px;font-weight:bold;margin-top:9px}
+.card,.task,.member-card{
+  background:var(--panel);border:1px solid var(--b);
+  border-radius:14px;padding:17px;box-shadow:0 6px 20px #153d2709
+}
+.stat-label{color:var(--m);font-size:13px}
+.stat-number{font-size:28px;font-weight:bold;margin-top:9px}
 .green{color:var(--g)}
-.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:25px 0 12px}
+.section-title{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin:25px 0 12px
+}
 .section-title h2{margin:0}
 .field{margin:10px 0}
 .field label{display:block;font-size:12px;color:var(--m);margin-bottom:6px}
-input,select,textarea{width:100%;padding:11px;border:1px solid var(--b);border-radius:9px;background:var(--panel);color:var(--t)}
+input,select,textarea{
+  width:100%;padding:11px;border:1px solid var(--b);
+  border-radius:9px;background:var(--panel);color:var(--t)
+}
 textarea{min-height:75px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .full{grid-column:1/-1}
-.primary,.secondary,.danger{border:0;padding:10px 14px;border-radius:9px;font-weight:bold}
+.primary,.secondary,.danger{
+  border:0;padding:10px 14px;border-radius:9px;font-weight:bold
+}
 .primary{background:var(--g);color:white}
 .secondary{background:var(--soft);color:var(--d)}
 body.dark .secondary{color:#c4ebd0}
@@ -45,41 +71,76 @@ body.dark .secondary{color:#c4ebd0}
 .task-check{width:18px;height:18px;accent-color:var(--g)}
 .task-head{display:flex;gap:10px;align-items:flex-start}
 .task-content{flex:1;min-width:0}
-.tag{display:inline-block;background:var(--soft);color:var(--d);padding:4px 8px;border-radius:18px;margin:3px 4px 0 0;font-size:11px}
+.tag{
+  display:inline-block;background:var(--soft);color:var(--d);
+  padding:4px 8px;border-radius:18px;margin:3px 4px 0 0;font-size:11px
+}
 body.dark .tag{color:#c4ebd0}
 .tag.red{background:#fbeaea;color:#b53c3c}
+.tag.shared{background:#e8efff;color:#3456a4}
 .filters{display:flex;gap:6px;flex-wrap:wrap;margin:13px 0}
-.filters button{border:1px solid var(--b);border-radius:20px;background:var(--panel);color:var(--t);padding:7px 11px;font-size:12px}
+.filters button{
+  border:1px solid var(--b);border-radius:20px;background:var(--panel);
+  color:var(--t);padding:7px 11px;font-size:12px
+}
 .filters button.selected{background:var(--g);color:white}
-.empty{padding:22px;border:1px dashed var(--b);border-radius:12px;text-align:center;color:var(--m)}
+.empty{
+  padding:22px;border:1px dashed var(--b);border-radius:12px;
+  text-align:center;color:var(--m)
+}
 .progress{height:9px;border-radius:10px;background:var(--b);overflow:hidden;margin:10px 0}
 .progress div{height:100%;background:var(--g)}
-.ring{width:115px;height:115px;border-radius:50%;background:conic-gradient(var(--g) var(--p),var(--b) 0);display:grid;place-items:center}
-.ring-inner{width:90px;height:90px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-weight:bold}
+.ring{
+  width:115px;height:115px;border-radius:50%;
+  background:conic-gradient(var(--g) var(--p),var(--b) 0);
+  display:grid;place-items:center
+}
+.ring-inner{
+  width:90px;height:90px;border-radius:50%;background:var(--panel);
+  display:grid;place-items:center;font-weight:bold
+}
 .member-card{margin-bottom:12px;box-shadow:none}
-.member-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.member-head strong{font-size:16px}
-.member-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:13px}
-.member-stats div{background:var(--soft);border-radius:9px;padding:9px;text-align:center}
-.member-stats b{display:block;font-size:19px;color:var(--g)}
-.member-stats small{color:var(--m);font-size:11px}
-.data-row{padding:10px 0;border-bottom:1px solid var(--b);font-size:13px;line-height:1.5}
 .timer{text-align:center;padding:25px}
 .timer-display{font-size:58px;font-weight:bold;margin:20px 0}
-nav{position:fixed;bottom:0;left:0;right:0;z-index:8;display:flex;overflow-x:auto;background:var(--panel);border-top:1px solid var(--b);padding:7px 4px calc(7px + env(safe-area-inset-bottom))}
-nav button{flex:1;min-width:65px;border:0;background:none;color:var(--m);font-size:11px;padding:7px 4px;white-space:nowrap}
+.request-card{
+  background:var(--panel);border:1px solid var(--b);
+  border-radius:13px;padding:15px;margin:12px 0
+}
+.request-card h3{margin:0 0 8px}
+.request-status{font-size:12px;font-weight:bold;color:var(--g)}
+.privacy-note{
+  background:var(--soft);color:var(--d);padding:13px;
+  border-radius:10px;font-size:13px;line-height:1.6;margin:14px 0
+}
+body.dark .privacy-note{color:#c4ebd0}
+nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:8;
+  display:flex;overflow-x:auto;background:var(--panel);
+  border-top:1px solid var(--b);
+  padding:7px 4px calc(7px + env(safe-area-inset-bottom))
+}
+nav button{
+  flex:1;min-width:65px;border:0;background:none;color:var(--m);
+  font-size:11px;padding:7px 4px;white-space:nowrap
+}
 nav button span{display:block;font-size:19px;margin-bottom:4px}
 nav button.active{color:var(--g);font-weight:bold}
-@media(max-width:600px){main{padding-top:20px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.timer-display{font-size:48px}.member-stats{gap:4px}}
+@media(max-width:600px){
+  main{padding-top:20px}
+  .form-grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .timer-display{font-size:48px}
+}
 </style>
 </head>
-<body>
 
+<body>
 <div id="locked" style="width:min(500px,90%);margin:50px auto">
   <div class="card">
     <h2>Profile login required</h2>
     <p class="muted">Please sign in through AppSyed first.</p>
-    <a href="../../index.html" class="primary" style="display:inline-block;text-decoration:none">Go to AppSyed</a>
+    <a href="../../index.html" class="primary"
+       style="display:inline-block;text-decoration:none">Go to AppSyed</a>
   </div>
 </div>
 
@@ -90,7 +151,6 @@ nav button.active{color:var(--g);font-weight:bold}
 </header>
 
 <main>
-
 <section class="page active" id="dashboard">
   <h1>Dashboard</h1>
   <p class="muted" id="todayLabel"></p>
@@ -100,40 +160,77 @@ nav button.active{color:var(--g);font-weight:bold}
     <div class="card"><div class="stat-label">Overdue</div><div class="stat-number" id="overdueCount">0</div></div>
     <div class="card"><div class="stat-label">Completed</div><div class="stat-number" id="completedCount">0</div></div>
   </div>
+
   <div class="section-title"><h2>Today's progress</h2></div>
   <div class="card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
-    <div class="ring" id="ring" style="--p:0%"><div class="ring-inner" id="percent">0.00%</div></div>
-    <div><strong id="progressText">Start your day!</strong><p class="note">Your progress is based on tasks due today.</p></div>
+    <div class="ring" id="ring" style="--p:0%">
+      <div class="ring-inner" id="percent">0.00%</div>
+    </div>
+    <div>
+      <strong id="progressText">Start your day!</strong>
+      <p class="note">Your progress is based on your own tasks due today.</p>
+    </div>
   </div>
-  <div class="section-title"><h2>Today's tasks</h2><button class="secondary" onclick="showPage('tasks')">View tasks</button></div>
+
+  <div class="section-title">
+    <h2>Today's tasks</h2>
+    <button class="secondary" onclick="showPage('tasks')">View tasks</button>
+  </div>
   <div id="todayTasks" class="task-list"></div>
+
   <div class="section-title"><h2>Overdue tasks</h2></div>
   <div id="overdueTasks" class="task-list"></div>
 </section>
 
 <section class="page" id="tasks">
   <h1>Tasks</h1>
-  <p class="muted">Create and manage your tasks.</p>
+  <p class="muted">Create and manage your own tasks and approved shared family tasks.</p>
+
   <div class="card">
     <h2 id="formTitle">＋ Add a task</h2>
     <form id="taskForm">
       <input type="hidden" id="editId">
-      <div class="field"><label>Task title *</label><input id="taskTitle" required maxlength="120"></div>
-      <div class="field"><label>Description</label><textarea id="taskDescription"></textarea></div>
+      <div class="field">
+        <label>Task title *</label>
+        <input id="taskTitle" required maxlength="120">
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="taskDescription"></textarea>
+      </div>
       <div class="form-grid">
         <div class="field"><label>Start date</label><input id="startDate" type="date"></div>
         <div class="field"><label>Due date</label><input id="dueDate" type="date"></div>
         <div class="field"><label>Due time</label><input id="dueTime" type="time"></div>
-        <div class="field"><label>Priority</label><select id="priority"><option>Medium</option><option>High</option><option>Low</option></select></div>
-        <div class="field"><label>Category</label><select id="category"><option>School</option><option>Work</option><option>Personal</option><option>Shopping</option><option>Family</option><option>Other</option></select></div>
-        <div class="field"><label>Repeat</label><select id="repeat"><option value="none">None</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
+        <div class="field">
+          <label>Priority</label>
+          <select id="priority"><option>Medium</option><option>High</option><option>Low</option></select>
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <select id="category">
+            <option>School</option><option>Work</option><option>Personal</option>
+            <option>Shopping</option><option>Family</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Repeat</label>
+          <select id="repeat">
+            <option value="none">None</option><option value="daily">Daily</option>
+            <option value="weekly">Weekly</option><option value="monthly">Monthly</option>
+          </select>
+        </div>
       </div>
-      <div class="actions"><button class="primary">Save task</button><button type="button" class="secondary hide" id="cancelEdit" onclick="resetForm()">Cancel</button></div>
+      <div class="actions">
+        <button class="primary">Save task</button>
+        <button type="button" class="secondary hide" id="cancelEdit" onclick="resetForm()">Cancel</button>
+      </div>
       <p id="taskMessage" class="note"></p>
     </form>
   </div>
+
   <div class="section-title"><h2>Your tasks</h2></div>
-  <input id="search" placeholder="Search tasks..." oninput="renderTasks()">
+  <input id="search" placeholder="Search your tasks..." oninput="renderTasks()">
   <div class="filters" id="filters">
     <button class="selected" data-filter="all">All</button>
     <button data-filter="today">Today</button>
@@ -147,18 +244,30 @@ nav button.active{color:var(--g);font-weight:bold}
 
 <section class="page" id="calendar">
   <h1>Calendar</h1>
-  <p class="muted">Your task deadlines.</p>
-  <div class="card"><label class="note">Choose month</label><input id="month" type="month"></div>
+  <p class="muted">Your own task deadlines and approved shared family tasks.</p>
+  <div class="card">
+    <label class="note">Choose month</label>
+    <input id="month" type="month">
+  </div>
   <div id="calendarList"></div>
 </section>
 
 <section class="page" id="habits">
   <h1>Habits</h1>
-  <p class="muted">Build routines and track daily progress.</p>
+  <p class="muted">Your private routines and progress.</p>
   <div class="card">
     <form id="habitForm">
-      <div class="field"><label>Habit name</label><input id="habitName" required placeholder="Example: Read every day"></div>
-      <div class="field"><label>Schedule</label><select id="habitSchedule"><option>Daily</option><option>Weekdays</option><option>Weekly</option><option>Custom</option></select></div>
+      <div class="field">
+        <label>Habit name</label>
+        <input id="habitName" required placeholder="Example: Read every day">
+      </div>
+      <div class="field">
+        <label>Schedule</label>
+        <select id="habitSchedule">
+          <option>Daily</option><option>Weekdays</option>
+          <option>Weekly</option><option>Custom</option>
+        </select>
+      </div>
       <button class="primary">Add habit</button>
     </form>
   </div>
@@ -168,13 +277,13 @@ nav button.active{color:var(--g);font-weight:bold}
 
 <section class="page" id="goals">
   <h1>Goals</h1>
-  <p class="muted">Set targets and record progress.</p>
+  <p class="muted">Your private short-term and long-term goals.</p>
   <div class="card">
     <form id="goalForm">
       <div class="field"><label>Goal name</label><input id="goalName" required></div>
       <div class="form-grid">
         <div class="field"><label>Target amount</label><input id="goalTarget" type="number" min="1" value="10" required></div>
-        <div class="field"><label>Unit</label><input id="goalUnit" placeholder="Pages, chapters..."></div>
+        <div class="field"><label>Unit</label><input id="goalUnit" placeholder="Pages, hours, etc."></div>
       </div>
       <div class="field"><label>Target date</label><input id="goalDate" type="date"></div>
       <button class="primary">Add goal</button>
@@ -186,11 +295,14 @@ nav button.active{color:var(--g);font-weight:bold}
 
 <section class="page" id="focus">
   <h1>Focus</h1>
-  <p class="muted">Focus on one thing at a time.</p>
+  <p class="muted">Your private focus sessions.</p>
   <div class="card timer">
     <strong id="timerMode">FOCUS SESSION</strong>
     <div class="timer-display" id="timer">25:00</div>
-    <div style="max-width:220px;margin:auto" class="field"><label>Minutes</label><input id="minutes" type="number" min="1" max="180" value="25"></div>
+    <div style="max-width:220px;margin:auto" class="field">
+      <label>Minutes</label>
+      <input id="minutes" type="number" min="1" max="180" value="25">
+    </div>
     <div class="actions" style="justify-content:center">
       <button class="primary" onclick="startTimer()">Start</button>
       <button class="secondary" onclick="pauseTimer()">Pause</button>
@@ -202,7 +314,7 @@ nav button.active{color:var(--g);font-weight:bold}
 
 <section class="page" id="statistics">
   <h1>Statistics</h1>
-  <p class="muted">Your productivity summary.</p>
+  <p class="muted">Your private productivity summary.</p>
   <div class="grid">
     <div class="card"><div class="stat-label">Total tasks</div><div class="stat-number" id="statTotal">0</div></div>
     <div class="card"><div class="stat-label">Completed</div><div class="stat-number green" id="statDone">0</div></div>
@@ -211,25 +323,65 @@ nav button.active{color:var(--g);font-weight:bold}
   </div>
 </section>
 
-<!-- OWNER-ONLY FAMILY DASHBOARD -->
+<!-- FAMILY SHARING: NO PRIVATE MEMBER RECORDS ARE LOADED HERE -->
 <section class="page" id="family">
-  <h1>Family Dashboard</h1>
-  <p class="muted">View productivity information from all approved family profiles on this device.</p>
-  <div class="section-title"><h2>Family overview</h2></div>
-  <div id="familyOverview"></div>
-  <div class="section-title"><h2>View a member's information</h2></div>
-  <div class="card">
-    <div class="field">
-      <label for="familyMember">Choose family member</label>
-      <select id="familyMember"></select>
-    </div>
-    <div id="familyDetails"><p class="note">Choose a profile to view their information.</p></div>
+  <h1>Family Sharing</h1>
+  <p class="muted">Request tasks for the whole family. Private profile information stays separate.</p>
+
+  <div class="privacy-note">
+    <strong>Family privacy:</strong> No family member can view another person's private tasks,
+    habits, goals, focus sessions, files or statistics. This page only shows information
+    intentionally submitted as a family task request.
   </div>
+
+  <div class="card">
+    <h2 id="familyFormTitle">Request a shared family task</h2>
+    <p class="note" id="familyFormDescription">
+      Send a request to the Main Owner. If approved, the task will be added separately
+      to every approved family profile.
+    </p>
+
+    <form id="familyRequestForm">
+      <div class="field">
+        <label>Task title *</label>
+        <input id="familyTaskTitle" required maxlength="120"
+               placeholder="Example: Family trip to Dubai">
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="familyTaskDescription"
+                  placeholder="Details about the family plan"></textarea>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Due date</label>
+          <input id="familyTaskDate" type="date">
+        </div>
+        <div class="field">
+          <label>Due time</label>
+          <input id="familyTaskTime" type="time">
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <select id="familyTaskPriority">
+            <option>Medium</option><option>High</option><option>Low</option>
+          </select>
+        </div>
+      </div>
+      <button class="primary" id="familyRequestButton">Send to Main Owner</button>
+      <p id="familyMessage" class="note"></p>
+    </form>
+  </div>
+
+  <div class="section-title">
+    <h2 id="familyListTitle">Your family task requests</h2>
+  </div>
+  <div id="familyRequestList"></div>
 </section>
 
 <section class="page" id="files">
   <h1>Files</h1>
-  <p class="muted">Attachments stored in this browser's private device storage.</p>
+  <p class="muted">Your private attachments in this browser's device storage.</p>
   <div class="card">
     <input type="file" id="fileInput">
     <button class="primary" onclick="uploadFile()">Save file</button>
@@ -248,15 +400,18 @@ nav button.active{color:var(--g);font-weight:bold}
   </div>
   <div class="card" style="margin-top:12px">
     <h3>Backup</h3>
-    <p class="note">Download this profile's productivity data as a backup.</p>
+    <p class="note">Download only this profile's own productivity data.</p>
     <button class="primary" onclick="exportBackup()">Download backup</button>
   </div>
 </section>
 
 <section class="page" id="restricted">
-  <div class="card"><h2>Access not available</h2><p id="restrictedMessage" class="note"></p><button class="secondary" onclick="showPage('dashboard')">Back</button></div>
+  <div class="card">
+    <h2>Access not available</h2>
+    <p id="restrictedMessage" class="note"></p>
+    <button class="secondary" onclick="showPage('dashboard')">Back</button>
+  </div>
 </section>
-
 </main>
 
 <nav id="nav">
@@ -267,7 +422,7 @@ nav button.active{color:var(--g);font-weight:bold}
   <button data-page="goals" data-permission="goals"><span>◎</span>Goals</button>
   <button data-page="focus" data-permission="focus"><span>◷</span>Focus</button>
   <button data-page="statistics" data-permission="statistics"><span>▥</span>Stats</button>
-  <button data-page="family" id="familyNav"><span>♧</span>Family</button>
+  <button data-page="family"><span>♧</span>Family</button>
   <button data-page="files" data-permission="files"><span>▤</span>Files</button>
   <button data-page="settings" data-permission="settings"><span>⚙</span>More</button>
 </nav>
@@ -277,384 +432,857 @@ nav button.active{color:var(--g);font-weight:bold}
 <script>
 "use strict";
 
-const $=id=>document.getElementById(id);
-const uid=()=>crypto.randomUUID?crypto.randomUUID():"id-"+Date.now()+"-"+Math.random();
-let profile=null,records=[],tasks=[],habits=[],goals=[],focusRecords=[],files=[];
-let filter="all",timerId=null,seconds=1500,mode="work";
+const $ = id => document.getElementById(id);
+const uid = () => crypto.randomUUID
+  ? crypto.randomUUID()
+  : "id-" + Date.now() + "-" + Math.random();
+
+let profile = null;
+let records = [];
+let tasks = [];
+let habits = [];
+let goals = [];
+let focusRecords = [];
+let files = [];
+let filter = "all";
+let timerId = null;
+let seconds = 1500;
+let mode = "work";
+let familyRequests = [];
 
 function today(){
- const d=new Date();
- return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  const d = new Date();
+  return d.getFullYear() + "-" +
+    String(d.getMonth()+1).padStart(2,"0") + "-" +
+    String(d.getDate()).padStart(2,"0");
 }
-function addDate(value,n,kind){
- const d=value?new Date(value+"T12:00:00"):new Date();
- if(kind==="daily")d.setDate(d.getDate()+n);
- if(kind==="weekly")d.setDate(d.getDate()+7*n);
- if(kind==="monthly")d.setMonth(d.getMonth()+n);
- return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-}
-function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function dateLabel(v){return v?new Date(v+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}):"No deadline";}
-function allowed(key){
- if(profile.role==="Main Owner")return true;
- return !profile.permissions||profile.permissions[key]!==false;
-}
-function showPage(id){
- const map={tasks:"tasks",calendar:"calendar",habits:"habits",goals:"goals",focus:"focus",statistics:"statistics",files:"files"};
- if(id==="family"&&profile.role!=="Main Owner")id="restricted";
- if(map[id]&&!allowed(map[id])){
-  $("restrictedMessage").textContent="The Main Owner has not enabled "+map[id]+" access for your profile.";
-  id="restricted";
- }
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- $(id).classList.add("active");
- document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
- if(id==="family")loadFamilyDashboard();
- if(id==="calendar")renderCalendar();
- if(id==="statistics")renderStats();
- if(id==="files")renderFiles();
-}
-document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 
-async function save(r){await AppSyedStorage.saveTask(r);}
-async function remove(id){await AppSyedStorage.deleteTask(id);}
+function addDate(value,n,kind){
+  const d = value ? new Date(value+"T12:00:00") : new Date();
+  if(kind==="daily") d.setDate(d.getDate()+n);
+  if(kind==="weekly") d.setDate(d.getDate()+7*n);
+  if(kind==="monthly") d.setMonth(d.getMonth()+n);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+
+function safe(v){
+  return String(v ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function dateLabel(v){
+  return v
+    ? new Date(v+"T12:00:00").toLocaleDateString(undefined,{
+        day:"numeric",month:"short",year:"numeric"
+      })
+    : "No deadline";
+}
+
+function allowed(key){
+  if(profile.role==="Main Owner") return true;
+  return !profile.permissions || profile.permissions[key] !== false;
+}
+
+function showPage(id){
+  const map = {
+    tasks:"tasks",calendar:"calendar",habits:"habits",
+    goals:"goals",focus:"focus",statistics:"statistics",files:"files"
+  };
+
+  if(map[id] && !allowed(map[id])){
+    $("restrictedMessage").textContent =
+      "The Main Owner has not enabled "+map[id]+" access for your profile.";
+    id = "restricted";
+  }
+
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  $(id).classList.add("active");
+
+  document.querySelectorAll("#nav button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===id);
+  });
+
+  if(id==="family") renderFamily();
+  if(id==="calendar") renderCalendar();
+  if(id==="statistics") renderStats();
+  if(id==="files") renderFiles();
+}
+
+document.querySelectorAll("#nav button").forEach(b=>{
+  b.onclick=()=>showPage(b.dataset.page);
+});
+
+async function save(record){
+  await AppSyedStorage.saveTask(record);
+}
+
+async function remove(id){
+  await AppSyedStorage.deleteTask(id);
+}
+
 async function reload(){
- records=await AppSyedStorage.getTasks(profile.id);
- tasks=records.filter(r=>r.type==="task"||!r.type);
- habits=records.filter(r=>r.type==="habit");
- goals=records.filter(r=>r.type==="goal");
- focusRecords=records.filter(r=>r.type==="focus");
- files=records.filter(r=>r.type==="file");
- renderAll();
- loadTheme();
+  records = await AppSyedStorage.getTasks(profile.id);
+  tasks = records.filter(r=>r.type==="task" || !r.type);
+  habits = records.filter(r=>r.type==="habit");
+  goals = records.filter(r=>r.type==="goal");
+  focusRecords = records.filter(r=>r.type==="focus");
+  files = records.filter(r=>r.type==="file");
+
+  renderAll();
+  loadTheme();
 }
+
 function status(t){
- if(t.completed)return "completed";
- if(!t.dueDate)return "none";
- if(t.dueDate===today())return "today";
- return t.dueDate<today()?"overdue":"upcoming";
+  if(t.completed) return "completed";
+  if(!t.dueDate) return "none";
+  if(t.dueDate===today()) return "today";
+  return t.dueDate<today() ? "overdue" : "upcoming";
 }
+
 function taskHTML(t){
- const s=status(t);
- return `<article class="task">
-  <div class="task-head">
-   <input class="task-check" type="checkbox" ${t.completed?"checked":""} onchange="completeTask('${t.id}',this.checked)">
-   <div class="task-content">
-    <div class="task-title">${safe(t.title)}</div>
-    ${t.description?`<p class="note">${safe(t.description)}</p>`:""}
-    <div class="task-meta">
-     <span class="tag ${s==="overdue"?"red":""}">${s==="today"?"Due today":s}</span>
-     <span class="tag">${safe(t.priority||"Medium")} priority</span>
-     <span class="tag">${safe(t.category||"Personal")}</span>
-     ${t.dueDate?`<span class="tag">${dateLabel(t.dueDate)} ${safe(t.dueTime||"")}</span>`:""}
+  const s = status(t);
+  return `<article class="task">
+    <div class="task-head">
+      <input class="task-check" type="checkbox" ${t.completed?"checked":""}
+        onchange="completeTask('${t.id}',this.checked)">
+      <div class="task-content">
+        <div class="task-title">${safe(t.title)}</div>
+        ${t.description?`<p class="note">${safe(t.description)}</p>`:""}
+        <div class="task-meta">
+          <span class="tag ${s==="overdue"?"red":""}">
+            ${s==="today"?"Due today":s}
+          </span>
+          ${t.familyShared?'<span class="tag shared">Shared family task</span>':""}
+          <span class="tag">${safe(t.priority||"Medium")} priority</span>
+          <span class="tag">${safe(t.category||"Personal")}</span>
+          ${t.dueDate?`<span class="tag">${dateLabel(t.dueDate)} ${safe(t.dueTime||"")}</span>`:""}
+        </div>
+      </div>
     </div>
-   </div>
-  </div>
-  <div class="actions">
-   <button class="secondary" onclick="editTask('${t.id}')">Edit</button>
-   <button class="secondary" onclick="postpone('${t.id}')">Postpone 1 day</button>
-   <button class="danger" onclick="deleteTask('${t.id}')">Delete</button>
-  </div>
- </article>`;
+    <div class="actions">
+      <button class="secondary" onclick="editTask('${t.id}')">Edit</button>
+      <button class="secondary" onclick="postpone('${t.id}')">Postpone 1 day</button>
+      <button class="danger" onclick="deleteTask('${t.id}')">Delete</button>
+    </div>
+  </article>`;
 }
+
 function listHTML(id,arr){
- $(id).innerHTML=arr.length?arr.map(taskHTML).join(""):'<div class="empty">Nothing here yet.</div>';
+  $(id).innerHTML = arr.length
+    ? arr.map(taskHTML).join("")
+    : '<div class="empty">Nothing here yet.</div>';
 }
+
 function renderTasks(){
- let arr=tasks.slice(),q=$("search").value.trim().toLowerCase();
- arr=arr.filter(t=>(t.title||"").toLowerCase().includes(q)||(t.description||"").toLowerCase().includes(q));
- if(filter==="today")arr=arr.filter(t=>status(t)==="today");
- if(filter==="upcoming")arr=arr.filter(t=>status(t)==="upcoming");
- if(filter==="overdue")arr=arr.filter(t=>status(t)==="overdue");
- if(filter==="completed")arr=arr.filter(t=>t.completed);
- if(filter==="none")arr=arr.filter(t=>status(t)==="none");
- listHTML("taskList",arr);
+  let arr = tasks.slice();
+  const q = $("search").value.trim().toLowerCase();
+
+  arr = arr.filter(t=>
+    (t.title||"").toLowerCase().includes(q) ||
+    (t.description||"").toLowerCase().includes(q)
+  );
+
+  if(filter==="today") arr=arr.filter(t=>status(t)==="today");
+  if(filter==="upcoming") arr=arr.filter(t=>status(t)==="upcoming");
+  if(filter==="overdue") arr=arr.filter(t=>status(t)==="overdue");
+  if(filter==="completed") arr=arr.filter(t=>t.completed);
+  if(filter==="none") arr=arr.filter(t=>status(t)==="none");
+
+  listHTML("taskList",arr);
 }
+
 $("filters").onclick=e=>{
- const b=e.target.closest("[data-filter]");
- if(!b)return;
- filter=b.dataset.filter;
- document.querySelectorAll("#filters button").forEach(x=>x.classList.toggle("selected",x===b));
- renderTasks();
+  const b=e.target.closest("[data-filter]");
+  if(!b) return;
+  filter=b.dataset.filter;
+  document.querySelectorAll("#filters button").forEach(x=>
+    x.classList.toggle("selected",x===b)
+  );
+  renderTasks();
 };
+
 function renderDashboard(){
- const active=tasks.filter(t=>!t.completed);
- const due=active.filter(t=>status(t)==="today");
- const upcoming=active.filter(t=>status(t)==="upcoming");
- const overdue=active.filter(t=>status(t)==="overdue");
- $("dueCount").textContent=due.length;
- $("upcomingCount").textContent=upcoming.length;
- $("overdueCount").textContent=overdue.length;
- $("completedCount").textContent=tasks.filter(t=>t.completed).length;
- $("todayLabel").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
- const todayTasks=tasks.filter(t=>t.dueDate===today());
- const done=todayTasks.filter(t=>t.completed).length;
- const p=todayTasks.length?done/todayTasks.length*100:0;
- $("ring").style.setProperty("--p",p.toFixed(2)+"%");
- $("percent").textContent=p.toFixed(2)+"%";
- $("progressText").textContent=todayTasks.length?done+" of "+todayTasks.length+" tasks completed":"No tasks due today";
- listHTML("todayTasks",due.slice(0,5));
- listHTML("overdueTasks",overdue.slice(0,5));
+  const active = tasks.filter(t=>!t.completed);
+  const due = active.filter(t=>status(t)==="today");
+  const upcoming = active.filter(t=>status(t)==="upcoming");
+  const overdue = active.filter(t=>status(t)==="overdue");
+
+  $("dueCount").textContent = due.length;
+  $("upcomingCount").textContent = upcoming.length;
+  $("overdueCount").textContent = overdue.length;
+  $("completedCount").textContent = tasks.filter(t=>t.completed).length;
+
+  $("todayLabel").textContent =
+    new Date().toLocaleDateString(undefined,{
+      weekday:"long",day:"numeric",month:"long",year:"numeric"
+    });
+
+  const todayTasks = tasks.filter(t=>t.dueDate===today());
+  const done = todayTasks.filter(t=>t.completed).length;
+  const p = todayTasks.length ? done/todayTasks.length*100 : 0;
+
+  $("ring").style.setProperty("--p",p.toFixed(2)+"%");
+  $("percent").textContent = p.toFixed(2)+"%";
+  $("progressText").textContent = todayTasks.length
+    ? done+" of "+todayTasks.length+" tasks completed"
+    : "No tasks due today";
+
+  listHTML("todayTasks",due.slice(0,5));
+  listHTML("overdueTasks",overdue.slice(0,5));
 }
+
 $("taskForm").onsubmit=async e=>{
- e.preventDefault();
- const title=$("taskTitle").value.trim();
- if(!title)return;
- const id=$("editId").value,old=tasks.find(t=>t.id===id);
- const r={
-  ...(old||{}),id:id||uid(),type:"task",profileId:profile.id,title,
-  description:$("taskDescription").value.trim(),startDate:$("startDate").value,
-  dueDate:$("dueDate").value,dueTime:$("dueTime").value,
-  priority:$("priority").value,category:$("category").value,repeat:$("repeat").value,
-  completed:old?old.completed:false,createdAt:old?old.createdAt:new Date().toISOString()
- };
- await save(r);resetForm();await reload();
+  e.preventDefault();
+
+  const title = $("taskTitle").value.trim();
+  if(!title) return;
+
+  const id = $("editId").value;
+  const old = tasks.find(t=>t.id===id);
+
+  const record = {
+    ...(old||{}),
+    id:id||uid(),
+    type:"task",
+    profileId:profile.id,
+    title,
+    description:$("taskDescription").value.trim(),
+    startDate:$("startDate").value,
+    dueDate:$("dueDate").value,
+    dueTime:$("dueTime").value,
+    priority:$("priority").value,
+    category:$("category").value,
+    repeat:$("repeat").value,
+    completed:old ? old.completed : false,
+    createdAt:old ? old.createdAt : new Date().toISOString()
+  };
+
+  await save(record);
+  resetForm();
+  await reload();
 };
+
 function resetForm(){
- $("taskForm").reset();$("editId").value="";
- $("formTitle").textContent="＋ Add a task";
- $("cancelEdit").classList.add("hide");
+  $("taskForm").reset();
+  $("editId").value="";
+  $("formTitle").textContent="＋ Add a task";
+  $("cancelEdit").classList.add("hide");
 }
+
 function editTask(id){
- const t=tasks.find(x=>x.id===id);if(!t)return;
- showPage("tasks");
- $("editId").value=t.id;$("taskTitle").value=t.title||"";
- $("taskDescription").value=t.description||"";
- $("startDate").value=t.startDate||"";$("dueDate").value=t.dueDate||"";
- $("dueTime").value=t.dueTime||"";$("priority").value=t.priority||"Medium";
- $("category").value=t.category||"Personal";$("repeat").value=t.repeat||"none";
- $("formTitle").textContent="Edit task";$("cancelEdit").classList.remove("hide");
+  const t=tasks.find(x=>x.id===id);
+  if(!t) return;
+
+  showPage("tasks");
+  $("editId").value=t.id;
+  $("taskTitle").value=t.title||"";
+  $("taskDescription").value=t.description||"";
+  $("startDate").value=t.startDate||"";
+  $("dueDate").value=t.dueDate||"";
+  $("dueTime").value=t.dueTime||"";
+  $("priority").value=t.priority||"Medium";
+  $("category").value=t.category||"Personal";
+  $("repeat").value=t.repeat||"none";
+  $("formTitle").textContent="Edit task";
+  $("cancelEdit").classList.remove("hide");
 }
+
 async function completeTask(id,checked){
- const t=tasks.find(x=>x.id===id);if(!t)return;
- t.completed=checked;t.completedAt=checked?new Date().toISOString():null;
- await save(t);
- if(checked&&t.repeat&&t.repeat!=="none"){
-  await save({...t,id:uid(),dueDate:addDate(t.dueDate||today(),1,t.repeat),completed:false,completedAt:null,createdAt:new Date().toISOString()});
- }
- await reload();
+  const t=tasks.find(x=>x.id===id);
+  if(!t) return;
+
+  t.completed=checked;
+  t.completedAt=checked ? new Date().toISOString() : null;
+  await save(t);
+
+  if(checked && t.repeat && t.repeat!=="none"){
+    await save({
+      ...t,
+      id:uid(),
+      dueDate:addDate(t.dueDate||today(),1,t.repeat),
+      completed:false,
+      completedAt:null,
+      createdAt:new Date().toISOString()
+    });
+  }
+
+  await reload();
 }
-async function deleteTask(id){if(confirm("Delete this task?")){await remove(id);await reload();}}
-async function postpone(id){const t=tasks.find(x=>x.id===id);if(!t)return;t.dueDate=addDate(t.dueDate||today(),1,"daily");await save(t);await reload();}
+
+async function deleteTask(id){
+  if(confirm("Delete this task?")){
+    await remove(id);
+    await reload();
+  }
+}
+
+async function postpone(id){
+  const t=tasks.find(x=>x.id===id);
+  if(!t) return;
+  t.dueDate=addDate(t.dueDate||today(),1,"daily");
+  await save(t);
+  await reload();
+}
+
 function renderCalendar(){
- const month=$("month").value||today().slice(0,7);$("month").value=month;
- const arr=tasks.filter(t=>t.dueDate&&t.dueDate.startsWith(month)).sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
- $("calendarList").innerHTML=arr.length?arr.map(t=>`<div class="section-title"><strong>${dateLabel(t.dueDate)}</strong></div>${taskHTML(t)}`).join(""):'<div class="empty">No deadlines this month.</div>';
+  const month=$("month").value||today().slice(0,7);
+  $("month").value=month;
+
+  const arr=tasks.filter(t=>t.dueDate&&t.dueDate.startsWith(month))
+    .sort((a,b)=>a.dueDate.localeCompare(b.dueDate));
+
+  $("calendarList").innerHTML=arr.length
+    ? arr.map(t=>`<div class="section-title"><strong>${dateLabel(t.dueDate)}</strong></div>${taskHTML(t)}`).join("")
+    : '<div class="empty">No deadlines this month.</div>';
 }
+
 $("month").onchange=renderCalendar;
 
 $("habitForm").onsubmit=async e=>{
- e.preventDefault();const name=$("habitName").value.trim();if(!name)return;
- await save({id:uid(),type:"habit",profileId:profile.id,name,schedule:$("habitSchedule").value,logs:[],createdAt:new Date().toISOString()});
- $("habitForm").reset();await reload();
+  e.preventDefault();
+
+  const name=$("habitName").value.trim();
+  if(!name) return;
+
+  await save({
+    id:uid(),type:"habit",profileId:profile.id,
+    name,schedule:$("habitSchedule").value,logs:[],
+    createdAt:new Date().toISOString()
+  });
+
+  $("habitForm").reset();
+  await reload();
 };
+
 function renderHabits(){
- $("habitList").innerHTML=habits.length?habits.map(h=>{
- const done=(h.logs||[]).includes(today());
- return `<div class="member-card"><strong>${safe(h.name)}</strong><p class="note">${safe(h.schedule)} · ${(h.logs||[]).length} completed days</p><button class="${done?"secondary":"primary"}" onclick="toggleHabit('${h.id}')">${done?"Done today ✓":"Mark done today"}</button> <button class="danger" onclick="deleteEntry('${h.id}')">Delete</button></div>`;
- }).join(""):'<div class="empty">No habits created yet.</div>';
+  $("habitList").innerHTML=habits.length
+    ? habits.map(h=>{
+        const done=(h.logs||[]).includes(today());
+        return `<div class="member-card">
+          <strong>${safe(h.name)}</strong>
+          <p class="note">${safe(h.schedule)} · ${(h.logs||[]).length} completed days</p>
+          <button class="${done?"secondary":"primary"}"
+            onclick="toggleHabit('${h.id}')">
+            ${done?"Done today ✓":"Mark done today"}
+          </button>
+          <button class="danger" onclick="deleteEntry('${h.id}')">Delete</button>
+        </div>`;
+      }).join("")
+    : '<div class="empty">No habits created yet.</div>';
 }
+
 async function toggleHabit(id){
- const h=habits.find(x=>x.id===id);if(!h)return;
- h.logs=h.logs||[];h.logs=h.logs.includes(today())?h.logs.filter(d=>d!==today()):[...h.logs,today()];
- await save(h);await reload();
+  const h=habits.find(x=>x.id===id);
+  if(!h) return;
+
+  h.logs=h.logs||[];
+  h.logs=h.logs.includes(today())
+    ? h.logs.filter(d=>d!==today())
+    : [...h.logs,today()];
+
+  await save(h);
+  await reload();
 }
+
 $("goalForm").onsubmit=async e=>{
- e.preventDefault();
- await save({id:uid(),type:"goal",profileId:profile.id,name:$("goalName").value.trim(),target:Number($("goalTarget").value),current:0,unit:$("goalUnit").value,targetDate:$("goalDate").value,createdAt:new Date().toISOString()});
- $("goalForm").reset();$("goalTarget").value=10;await reload();
+  e.preventDefault();
+
+  const name=$("goalName").value.trim();
+  const target=Number($("goalTarget").value);
+  if(!name||!Number.isFinite(target)||target<1) return;
+
+  await save({
+    id:uid(),type:"goal",profileId:profile.id,
+    name,target,current:0,unit:$("goalUnit").value,
+    targetDate:$("goalDate").value,
+    createdAt:new Date().toISOString()
+  });
+
+  $("goalForm").reset();
+  $("goalTarget").value=10;
+  await reload();
 };
+
 function renderGoals(){
- $("goalList").innerHTML=goals.length?goals.map(g=>{
- const p=Math.min(100,100*g.current/g.target);
- return `<div class="member-card"><strong>${safe(g.name)}</strong><p class="note">${g.current} / ${g.target} ${safe(g.unit||"")} ${g.targetDate?"· "+dateLabel(g.targetDate):""}</p><div class="progress"><div style="width:${p}%"></div></div><button class="primary" onclick="increaseGoal('${g.id}')">＋ Add progress</button> <button class="danger" onclick="deleteEntry('${g.id}')">Delete</button></div>`;
- }).join(""):'<div class="empty">No goals created yet.</div>';
+  $("goalList").innerHTML=goals.length
+    ? goals.map(g=>{
+        const p=Math.min(100,100*g.current/g.target);
+        return `<div class="member-card">
+          <strong>${safe(g.name)}</strong>
+          <p class="note">${g.current} / ${g.target} ${safe(g.unit||"")} ${g.targetDate?"· "+dateLabel(g.targetDate):""}</p>
+          <div class="progress"><div style="width:${p}%"></div></div>
+          <button class="primary" onclick="increaseGoal('${g.id}')">＋ Add progress</button>
+          <button class="danger" onclick="deleteEntry('${g.id}')">Delete</button>
+        </div>`;
+      }).join("")
+    : '<div class="empty">No goals created yet.</div>';
 }
-async function increaseGoal(id){const g=goals.find(x=>x.id===id);if(!g)return;g.current=Math.min(g.target,g.current+1);await save(g);await reload();}
-async function deleteEntry(id){if(confirm("Delete this item?")){await remove(id);await reload();}}
+
+async function increaseGoal(id){
+  const g=goals.find(x=>x.id===id);
+  if(!g) return;
+  g.current=Math.min(g.target,g.current+1);
+  await save(g);
+  await reload();
+}
+
+async function deleteEntry(id){
+  if(confirm("Delete this item?")){
+    await remove(id);
+    await reload();
+  }
+}
 
 function timerDisplay(){
- $("timer").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
+  $("timer").textContent=
+    String(Math.floor(seconds/60)).padStart(2,"0")+":"+
+    String(seconds%60).padStart(2,"0");
 }
+
 function resetTimer(){
- clearInterval(timerId);timerId=null;mode="work";seconds=(Number($("minutes").value)||25)*60;
- $("timerMode").textContent="FOCUS SESSION";timerDisplay();
+  clearInterval(timerId);
+  timerId=null;
+  mode="work";
+  seconds=(Number($("minutes").value)||25)*60;
+  $("timerMode").textContent="FOCUS SESSION";
+  timerDisplay();
 }
-function pauseTimer(){clearInterval(timerId);timerId=null;}
+
+function pauseTimer(){
+  clearInterval(timerId);
+  timerId=null;
+}
+
 function startTimer(){
- if(timerId)return;
- if(mode==="work"){
-  const m=Number($("minutes").value);
-  if(!Number.isFinite(m)||m<1||m>180){$("timerMessage").textContent="Choose 1–180 minutes.";return;}
-  if(seconds<=0)seconds=m*60;
- }
- timerId=setInterval(async()=>{
-  seconds--;timerDisplay();
-  if(seconds<=0){
-   pauseTimer();
-   if(mode==="work"){
-    const m=Number($("minutes").value)||25;
-    await save({id:uid(),type:"focus",profileId:profile.id,minutes:m,finishedAt:new Date().toISOString()});
-    await reload();mode="break";seconds=300;
-    $("timerMode").textContent="BREAK TIME";
-    $("timerMessage").textContent="Focus session saved. Take a break!";
-   }else{
-    mode="work";seconds=(Number($("minutes").value)||25)*60;
-    $("timerMode").textContent="FOCUS SESSION";$("timerMessage").textContent="Break finished!";
-   }
-   timerDisplay();
+  if(timerId) return;
+
+  if(mode==="work"){
+    const m=Number($("minutes").value);
+    if(!Number.isFinite(m)||m<1||m>180){
+      $("timerMessage").textContent="Choose 1–180 minutes.";
+      return;
+    }
+    if(seconds<=0) seconds=m*60;
   }
- },1000);
+
+  timerId=setInterval(async()=>{
+    seconds--;
+    timerDisplay();
+
+    if(seconds<=0){
+      pauseTimer();
+
+      if(mode==="work"){
+        const m=Number($("minutes").value)||25;
+
+        await save({
+          id:uid(),type:"focus",profileId:profile.id,
+          minutes:m,finishedAt:new Date().toISOString()
+        });
+
+        await reload();
+        mode="break";
+        seconds=300;
+        $("timerMode").textContent="BREAK TIME";
+        $("timerMessage").textContent="Focus session saved. Take a break!";
+      }else{
+        mode="work";
+        seconds=(Number($("minutes").value)||25)*60;
+        $("timerMode").textContent="FOCUS SESSION";
+        $("timerMessage").textContent="Break finished!";
+      }
+
+      timerDisplay();
+    }
+  },1000);
 }
-$("minutes").onchange=()=>{if(!timerId&&mode==="work")resetTimer();};
+
+$("minutes").onchange=()=>{
+  if(!timerId&&mode==="work") resetTimer();
+};
 
 function renderStats(){
- const done=tasks.filter(t=>t.completed).length;
- $("statTotal").textContent=tasks.length;
- $("statDone").textContent=done;
- $("statRate").textContent=(tasks.length?done/tasks.length*100:0).toFixed(2)+"%";
- $("statFocus").textContent=focusRecords.length;
+  const done=tasks.filter(t=>t.completed).length;
+  $("statTotal").textContent=tasks.length;
+  $("statDone").textContent=done;
+  $("statRate").textContent=
+    (tasks.length?done/tasks.length*100:0).toFixed(2)+"%";
+  $("statFocus").textContent=focusRecords.length;
 }
+
 async function uploadFile(){
- const f=$("fileInput").files[0];if(!f){$("fileMessage").textContent="Choose a file first.";return;}
- try{
-  const meta=await AppSyedStorage.saveFile(f,profile.id);
-  await save({...meta,id:"file-"+meta.id,type:"file",profileId:profile.id});
-  $("fileInput").value="";$("fileMessage").textContent="File saved on this device.";
-  await reload();
- }catch(e){$("fileMessage").textContent=e.message||"Could not save the file.";}
+  const f=$("fileInput").files[0];
+  if(!f){
+    $("fileMessage").textContent="Choose a file first.";
+    return;
+  }
+
+  try{
+    const meta=await AppSyedStorage.saveFile(f,profile.id);
+    await save({...meta,id:"file-"+meta.id,type:"file",profileId:profile.id});
+    $("fileInput").value="";
+    $("fileMessage").textContent="File saved on this device.";
+    await reload();
+  }catch(e){
+    $("fileMessage").textContent=e.message||"Could not save the file.";
+  }
 }
+
 async function renderFiles(){
- $("fileList").innerHTML=files.length?files.map(f=>`<div class="member-card"><strong>${safe(f.name)}</strong><p class="note">${(f.size/1048576).toFixed(2)} MB</p><button class="secondary" onclick="openFile('${f.id}')">Open</button></div>`).join(""):'<div class="empty">No files saved.</div>';
- try{
-  const info=await AppSyedStorage.getStorageInfo();
-  $("storageInfo").textContent=info?`Storage usage: ${(info.usage/1048576).toFixed(2)} MB. Estimated quota: ${(info.quota/1048576).toFixed(2)} MB.`:"Storage estimate unavailable.";
- }catch(e){$("storageInfo").textContent="Storage estimate unavailable.";}
+  $("fileList").innerHTML=files.length
+    ? files.map(f=>`<div class="member-card">
+        <strong>${safe(f.name)}</strong>
+        <p class="note">${(f.size/1048576).toFixed(2)} MB</p>
+        <button class="secondary" onclick="openFile('${f.id}')">Open</button>
+      </div>`).join("")
+    : '<div class="empty">No files saved.</div>';
+
+  try{
+    const info=await AppSyedStorage.getStorageInfo();
+    $("storageInfo").textContent=info
+      ? `Storage usage: ${(info.usage/1048576).toFixed(2)} MB. Estimated quota: ${(info.quota/1048576).toFixed(2)} MB.`
+      : "Storage estimate unavailable.";
+  }catch(e){
+    $("storageInfo").textContent="Storage estimate unavailable.";
+  }
 }
+
 async function openFile(id){
- const f=files.find(x=>x.id===id);if(!f)return;
- try{
-  const blob=await AppSyedStorage.readFile(profile.id,f.storedName);
-  const url=URL.createObjectURL(blob);const a=document.createElement("a");
-  a.href=url;a.download=f.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
- }catch(e){alert("The file could not be opened.");}
+  const f=files.find(x=>x.id===id);
+  if(!f) return;
+
+  try{
+    const blob=await AppSyedStorage.readFile(profile.id,f.storedName);
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download=f.name;
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }catch(e){
+    alert("The file could not be opened.");
+  }
 }
+
 async function toggleTheme(){
- const old=records.find(r=>r.type==="setting"&&r.id==="theme-"+profile.id);
- await save({id:"theme-"+profile.id,type:"setting",profileId:profile.id,value:document.body.classList.contains("dark")?"light":"dark"});
- await reload();
+  await save({
+    id:"theme-"+profile.id,
+    type:"setting",
+    profileId:profile.id,
+    value:document.body.classList.contains("dark")?"light":"dark"
+  });
+  await reload();
 }
+
 function loadTheme(){
- const r=records.find(x=>x.type==="setting"&&x.id==="theme-"+profile.id);
- document.body.classList.toggle("dark",r?.value==="dark");
+  const r=records.find(x=>x.type==="setting"&&x.id==="theme-"+profile.id);
+  document.body.classList.toggle("dark",r?.value==="dark");
 }
+
 function exportBackup(){
- const blob=new Blob([JSON.stringify({app:"AppSyed",profile:profile.name,exportedAt:new Date().toISOString(),records},null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);const a=document.createElement("a");
- a.href=url;a.download="appsyed-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+  const blob=new Blob([
+    JSON.stringify({
+      app:"AppSyed",
+      profile:profile.name,
+      exportedAt:new Date().toISOString(),
+      records
+    },null,2)
+  ],{type:"application/json"});
+
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="appsyed-backup.json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
 }
 
 function renderAll(){
- renderDashboard();renderTasks();renderHabits();renderGoals();renderCalendar();renderStats();renderFiles();
+  renderDashboard();
+  renderTasks();
+  renderHabits();
+  renderGoals();
+  renderCalendar();
+  renderStats();
+  renderFiles();
 }
 
-/* OWNER FAMILY DATA: load records for every approved profile */
-async function loadFamilyDashboard(){
- if(profile.role!=="Main Owner")return;
- const overview=$("familyOverview"),selector=$("familyMember");
- overview.innerHTML='<p class="note">Loading family information...</p>';
- selector.innerHTML="";
- try{
-  const profiles=await AppSyedStorage.getProfiles();
-  const approved=profiles.filter(p=>p.status==="approved");
-  const all=[];
-  for(const member of approved){
-   const data=await AppSyedStorage.getTasks(member.id);
-   all.push({member,data});
+/* -------------------------------------------------------
+   FAMILY PRIVACY AND SHARED TASK REQUESTS
+
+   This section NEVER calls getTasks(memberId).
+   It does not load another profile's private records.
+   It only reads explicit family task requests.
+------------------------------------------------------- */
+
+function familyStorageReady(){
+  return typeof AppSyedStorage.getFamilyRequests==="function" &&
+         typeof AppSyedStorage.saveFamilyRequest==="function";
+}
+
+async function renderFamily(){
+  const list=$("familyRequestList");
+  list.innerHTML='<div class="empty">Loading family requests...</div>';
+
+  if(!familyStorageReady()){
+    $("familyMessage").textContent =
+      "Family request storage is not installed yet. First commit the updated src/storage.js file (version 2).";
+    list.innerHTML='<div class="empty">Update storage.js before using family requests.</div>';
+    return;
   }
 
-  overview.innerHTML=all.length?all.map(({member,data})=>{
-   const memberTasks=data.filter(r=>r.type==="task"||!r.type);
-   const completed=memberTasks.filter(t=>t.completed).length;
-   const memberHabits=data.filter(r=>r.type==="habit").length;
-   const memberGoals=data.filter(r=>r.type==="goal").length;
-   return `<article class="member-card">
-    <div class="member-head"><strong>${safe(member.name)} ${member.id===profile.id?"(You)":""}</strong><span class="tag">${safe(member.role)}</span></div>
-    <div class="member-stats">
-      <div><b>${memberTasks.length}</b><small>Tasks</small></div>
-      <div><b>${completed}</b><small>Completed</small></div>
-      <div><b>${memberHabits}</b><small>Habits</small></div>
-    </div>
-    <p class="note">${memberGoals} goals · ${data.filter(r=>r.type==="focus").length} focus sessions · ${data.filter(r=>r.type==="file").length} files</p>
-   </article>`;
-  }).join(""):'<div class="empty">No approved profiles yet.</div>';
+  try{
+    const allRequests=await AppSyedStorage.getFamilyRequests();
 
-  approved.forEach(member=>{
-   const option=document.createElement("option");
-   option.value=member.id;
-   option.textContent=member.name+(member.id===profile.id?" (You)":"");
-   selector.append(option);
-  });
+    // Members see only requests they personally submitted.
+    // Main Owner sees only family task requests, never private profile records.
+    familyRequests = profile.role==="Main Owner"
+      ? allRequests
+      : allRequests.filter(r=>r.requesterId===profile.id);
 
-  selector.onchange=()=>showMemberData(all,selector.value);
-  if(approved.length)showMemberData(all,approved[0].id);
- }catch(error){
-  overview.innerHTML='<div class="empty">Could not load family records. Check device storage.</div>';
- }
+    if(profile.role==="Main Owner"){
+      $("familyFormTitle").textContent="Create a shared family task";
+      $("familyFormDescription").textContent =
+        "Create a task for every approved family profile. Each person gets their own completion status.";
+      $("familyRequestButton").textContent="Add task to all family profiles";
+      $("familyListTitle").textContent="Requests awaiting your approval";
+      renderOwnerRequests();
+    }else{
+      $("familyFormTitle").textContent="Request a shared family task";
+      $("familyFormDescription").textContent =
+        "Send your request to the Main Owner. If approved, the task will be added separately to all approved family profiles.";
+      $("familyRequestButton").textContent="Send to Main Owner";
+      $("familyListTitle").textContent="Your submitted requests";
+      renderMemberRequests();
+    }
+  }catch(error){
+    list.innerHTML='<div class="empty">Could not load family requests. Please check device storage.</div>';
+  }
 }
 
-function showMemberData(all,id){
- const selected=all.find(x=>x.member.id===id);
- const box=$("familyDetails");
- if(!selected){box.innerHTML='<p class="note">No profile selected.</p>';return;}
- const {member,data}=selected;
- const memberTasks=data.filter(r=>r.type==="task"||!r.type);
- const memberHabits=data.filter(r=>r.type==="habit");
- const memberGoals=data.filter(r=>r.type==="goal");
- const memberFocus=data.filter(r=>r.type==="focus");
- const memberFiles=data.filter(r=>r.type==="file");
- const done=memberTasks.filter(t=>t.completed).length;
+$("familyRequestForm").onsubmit=async e=>{
+  e.preventDefault();
 
- const section=(title,items,formatter,emptyText)=>{
-  return `<div class="section-title"><h2>${title} (${items.length})</h2></div>`+
-   (items.length?items.map(item=>`<div class="data-row">${formatter(item)}</div>`).join(""):`<p class="note">${emptyText}</p>`);
- };
+  if(!familyStorageReady()){
+    $("familyMessage").textContent =
+      "Please commit the updated storage.js file first.";
+    return;
+  }
 
- box.innerHTML=`
-  <h3>${safe(member.name)}'s information</h3>
-  <p class="note">${safe(member.role)} · ${done} of ${memberTasks.length} tasks completed</p>
-  ${section("Tasks",memberTasks,t=>`<strong>${safe(t.title)}</strong> — ${t.completed?"Completed":t.dueDate?"Due "+dateLabel(t.dueDate):"No deadline"}${t.description?"<br>"+safe(t.description):""}`,"No tasks saved.")}
-  ${section("Habits",memberHabits,h=>`<strong>${safe(h.name)}</strong> — ${safe(h.schedule||"")} · ${(h.logs||[]).length} completed days`,"No habits saved.")}
-  ${section("Goals",memberGoals,g=>`<strong>${safe(g.name)}</strong> — ${g.current||0} / ${g.target||0} ${safe(g.unit||"")}`,"No goals saved.")}
-  ${section("Focus sessions",memberFocus,f=>`${Number(f.minutes)||0} minutes · ${f.finishedAt?new Date(f.finishedAt).toLocaleString():""}`,"No focus sessions saved.")}
-  ${section("Files",memberFiles,f=>`<strong>${safe(f.name)}</strong> · ${(f.size/1048576).toFixed(2)} MB`,"No file records saved.")}
- `;
+  const title=$("familyTaskTitle").value.trim();
+  if(!title){
+    $("familyMessage").textContent="Enter a task title.";
+    return;
+  }
+
+  const request={
+    id:uid(),
+    requesterId:profile.id,
+    requesterName:profile.name,
+    title,
+    description:$("familyTaskDescription").value.trim(),
+    dueDate:$("familyTaskDate").value,
+    dueTime:$("familyTaskTime").value,
+    priority:$("familyTaskPriority").value,
+    category:"Family",
+    status:profile.role==="Main Owner"?"pending":"pending",
+    target:"all-approved",
+    createdAt:new Date().toISOString()
+  };
+
+  try{
+    await AppSyedStorage.saveFamilyRequest(request);
+    $("familyRequestForm").reset();
+
+    if(profile.role==="Main Owner"){
+      // Main Owner-created family tasks are distributed immediately.
+      await approveFamilyRequest(request.id,true);
+      $("familyMessage").textContent="The shared task was added to approved family profiles.";
+    }else{
+      $("familyMessage").textContent="Request sent to the Main Owner.";
+    }
+
+    await renderFamily();
+  }catch(error){
+    $("familyMessage").textContent=error.message||"Could not save this request.";
+  }
+};
+
+function renderOwnerRequests(){
+  const pending=familyRequests.filter(r=>r.status==="pending");
+
+  $("familyRequestList").innerHTML=pending.length
+    ? pending.map(r=>`
+      <article class="request-card">
+        <div class="request-status">NEW FAMILY TASK REQUEST</div>
+        <h3>${safe(r.title)}</h3>
+        <p class="note">${safe(r.description||"No description provided.")}</p>
+        <p class="note">
+          Requested by: <strong>${safe(r.requesterName)}</strong><br>
+          Due: ${r.dueDate?dateLabel(r.dueDate):"No deadline"}
+          ${r.dueTime?" · "+safe(r.dueTime):""}<br>
+          Priority: ${safe(r.priority||"Medium")}
+        </p>
+        <div class="actions">
+          <button class="primary" onclick="approveFamilyRequest('${r.id}')">Approve for everyone</button>
+          <button class="danger" onclick="declineFamilyRequest('${r.id}')">Decline</button>
+        </div>
+      </article>`).join("")
+    : '<div class="empty">No family task requests are waiting for approval.</div>';
+
+  $("familyRequestList").innerHTML += `
+    <p class="note">Only the details intentionally included in a shared-task request are shown here. Other members' private productivity records are not loaded.</p>`;
+}
+
+function renderMemberRequests(){
+  $("familyRequestList").innerHTML=familyRequests.length
+    ? familyRequests.slice().sort((a,b)=>
+        String(b.createdAt).localeCompare(String(a.createdAt))
+      ).map(r=>{
+        const statusText =
+          r.status==="approved" ? "Approved — added to family profiles" :
+          r.status==="declined" ? "Declined by Main Owner" :
+          r.status==="pending" ? "Waiting for Main Owner approval" :
+          "Processing";
+
+        return `<article class="request-card">
+          <div class="request-status">${safe(statusText)}</div>
+          <h3>${safe(r.title)}</h3>
+          <p class="note">${safe(r.description||"")}</p>
+          <p class="note">
+            Due: ${r.dueDate?dateLabel(r.dueDate):"No deadline"}
+            ${r.dueTime?" · "+safe(r.dueTime):""}
+          </p>
+        </article>`;
+      }).join("")
+    : '<div class="empty">You have not sent any family task requests.</div>';
+}
+
+async function approveFamilyRequest(requestId,ownerCreated=false){
+  if(profile.role!=="Main Owner"){
+    $("familyMessage").textContent="Only the Main Owner can approve family tasks.";
+    return;
+  }
+
+  try{
+    const request=(await AppSyedStorage.getFamilyRequests())
+      .find(r=>r.id===requestId);
+
+    if(!request || request.status!=="pending"){
+      $("familyMessage").textContent="This request is no longer pending.";
+      return;
+    }
+
+    // Read approved profile names/IDs only. Do NOT read their task lists.
+    const profiles=await AppSyedStorage.getProfiles();
+    const approved=profiles.filter(p=>p.status==="approved");
+
+    if(!approved.length){
+      $("familyMessage").textContent="There are no approved profiles.";
+      return;
+    }
+
+    // Each profile receives its own separate copy.
+    // Deterministic IDs prevent duplicates if approval is retried.
+    for(const member of approved){
+      const copy={
+        id:"shared-"+request.id+"-"+member.id,
+        type:"task",
+        profileId:member.id,
+        title:request.title,
+        description:request.description||"",
+        startDate:"",
+        dueDate:request.dueDate||"",
+        dueTime:request.dueTime||"",
+        priority:request.priority||"Medium",
+        category:"Family",
+        repeat:"none",
+        completed:false,
+        createdAt:new Date().toISOString(),
+        familyShared:true,
+        familySharedId:request.id,
+        sharedBy:profile.id,
+        sharedByName:profile.name
+      };
+
+      await AppSyedStorage.saveTask(copy);
+    }
+
+    request.status="approved";
+    request.approvedAt=new Date().toISOString();
+    request.approvedBy=profile.id;
+    request.approvedProfileIds=approved.map(p=>p.id);
+
+    await AppSyedStorage.saveFamilyRequest(request);
+
+    $("familyMessage").textContent =
+      "Approved. A separate task copy was added to "+approved.length+" approved profiles.";
+
+    await reload();
+    await renderFamily();
+  }catch(error){
+    $("familyMessage").textContent =
+      "Could not approve this request: "+(error.message||"Storage error");
+  }
+}
+
+async function declineFamilyRequest(requestId){
+  if(profile.role!=="Main Owner") return;
+
+  try{
+    const request=(await AppSyedStorage.getFamilyRequests())
+      .find(r=>r.id===requestId);
+
+    if(!request || request.status!=="pending") return;
+
+    request.status="declined";
+    request.declinedAt=new Date().toISOString();
+    request.declinedBy=profile.id;
+
+    await AppSyedStorage.saveFamilyRequest(request);
+    $("familyMessage").textContent="The family task request was declined.";
+    await renderFamily();
+  }catch(error){
+    $("familyMessage").textContent="Could not decline this request.";
+  }
 }
 
 async function start(){
- try{
-  const id=sessionStorage.getItem("appsyed_active_profile");
-  if(!id)return;
-  await AppSyedStorage.openDatabase();
-  profile=await AppSyedStorage.getProfile(id);
-  if(!profile||profile.status!=="approved")return;
+  try{
+    const id=sessionStorage.getItem("appsyed_active_profile");
+    if(!id) return;
 
-  $("locked").classList.add("hide");
-  $("app").classList.remove("hide");
-  $("who").textContent=profile.name+" · "+profile.role;
+    await AppSyedStorage.openDatabase();
+    profile=await AppSyedStorage.getProfile(id);
 
-  document.querySelectorAll("#nav button[data-permission]").forEach(b=>{
-   b.classList.toggle("hide",profile.role!=="Main Owner"&&profile.permissions&&profile.permissions[b.dataset.permission]===false);
-  });
+    if(!profile || profile.status!=="approved") return;
 
-  $("familyNav").classList.toggle("hide",profile.role!=="Main Owner");
+    $("locked").classList.add("hide");
+    $("app").classList.remove("hide");
+    $("who").textContent=profile.name+" · "+profile.role;
 
-  await reload();
-  resetTimer();
- }catch(error){
-  $("locked").innerHTML='<div class="card"><h2>Could not open Productivity</h2><p class="note">Please check that src/storage.js exists and reload.</p><a href="../../index.html">Return to AppSyed</a></div>';
- }
+    document.querySelectorAll("#nav button[data-permission]").forEach(b=>{
+      b.classList.toggle(
+        "hide",
+        profile.role!=="Main Owner" &&
+        profile.permissions &&
+        profile.permissions[b.dataset.permission]===false
+      );
+    });
+
+    await reload();
+    resetTimer();
+  }catch(error){
+    $("locked").innerHTML=`
+      <div class="card">
+        <h2>Could not open Productivity</h2>
+        <p class="note">Please check that src/storage.js is saved correctly and reload.</p>
+        <a href="../../index.html">Return to AppSyed</a>
+      </div>`;
+  }
 }
+
 start();
 </script>
 </body>
