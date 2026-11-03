@@ -140,9 +140,9 @@
 
   async function requestPersistentStorage() {
     if (!navigator.storage?.persist) return false;
+
     return navigator.storage.persist();
   }
-
   async function saveFile(file, profileId, taskId = null) {
     if (!navigator.storage?.getDirectory) {
       throw new Error("Private file storage is not supported by this browser.");
