@@ -1,13 +1,13 @@
+
 // AppSyed device storage
-// IndexedDB stores profiles and app data on this device.
-// OPFS stores uploaded files when the browser supports it.
+// Private profile data + separate shared family task requests.
 
 (() => {
   "use strict";
 
   const DB_NAME = "AppSyedDeviceDB";
-  const DB_VERSION = 1;
-  let databasePromise;
+  const DB_VERSION = 2;
+  let databasePromise = null;
 
   function openDatabase() {
     if (databasePromise) return databasePromise;
@@ -31,9 +31,34 @@
             unique: false
           });
         }
+
+        // Separate store: only shared task requests.
+        // Never put members' private productivity records here.
+        if (!db.objectStoreNames.contains("familyRequests")) {
+          const requests = db.createObjectStore("familyRequests", {
+            keyPath: "id"
+          });
+
+          requests.createIndex("status", "status", {
+            unique: false
+          });
+
+          requests.createIndex("requesterId", "requesterId", {
+            unique: false
+          });
+        }
       };
 
-      request.onsuccess = () => resolve(request.result);
+      request.onsuccess = () => {
+        const db = request.result;
+
+        db.onversionchange = () => {
+          db.close();
+          databasePromise = null;
+        };
+
+        resolve(db);
+      };
 
       request.onerror = () => {
         databasePromise = null;
@@ -52,6 +77,7 @@
 
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
+
       transaction.onabort = () => {
         reject(transaction.error || new Error("Storage operation failed."));
       };
@@ -63,19 +89,20 @@
     return runRequest("profiles", "readonly", store => store.getAll());
   }
 
-  function getProfile(profileId) {
-    return runRequest("profiles", "readonly", store => store.get(profileId));
+  function getProfile(id) {
+    return runRequest("profiles", "readonly", store => store.get(id));
   }
 
   function saveProfile(profile) {
     return runRequest("profiles", "readwrite", store => store.put(profile));
   }
 
-  function deleteProfile(profileId) {
-    return runRequest("profiles", "readwrite", store => store.delete(profileId));
+  function deleteProfile(id) {
+    return runRequest("profiles", "readwrite", store => store.delete(id));
   }
 
-  // Tasks
+  // Private productivity records.
+  // Every record belongs to exactly one profile.
   function getTasks(profileId) {
     return openDatabase().then(db => new Promise((resolve, reject) => {
       const transaction = db.transaction("tasks", "readonly");
@@ -88,11 +115,46 @@
   }
 
   function saveTask(task) {
+    if (!task || !task.id || !task.profileId) {
+      return Promise.reject(new Error("A task needs an ID and profile."));
+    }
+
     return runRequest("tasks", "readwrite", store => store.put(task));
   }
 
-  function deleteTask(taskId) {
-    return runRequest("tasks", "readwrite", store => store.delete(taskId));
+  function deleteTask(id) {
+    return runRequest("tasks", "readwrite", store => store.delete(id));
+  }
+
+  // Shared family task requests.
+  function getFamilyRequests() {
+    return runRequest(
+      "familyRequests",
+      "readonly",
+      store => store.getAll()
+    );
+  }
+
+  function saveFamilyRequest(request) {
+    if (!request || !request.id || !request.requesterId) {
+      return Promise.reject(
+        new Error("A family request needs an ID and requester.")
+      );
+    }
+
+    return runRequest(
+      "familyRequests",
+      "readwrite",
+      store => store.put(request)
+    );
+  }
+
+  function deleteFamilyRequest(id) {
+    return runRequest(
+      "familyRequests",
+      "readwrite",
+      store => store.delete(id)
+    );
   }
 
   // Storage information
@@ -112,15 +174,16 @@
     return navigator.storage.persist();
   }
 
-  // File storage using OPFS
+  // Private file storage using OPFS
   async function saveFile(file, profileId, taskId = null) {
     if (!navigator.storage || !navigator.storage.getDirectory) {
       throw new Error(
-        "This browser does not support AppSyed's private file storage."
+        "This browser does not support private file storage."
       );
     }
 
     const root = await navigator.storage.getDirectory();
+
     const appFolder = await root.getDirectoryHandle(
       "appsyed-files",
       { create: true }
@@ -175,6 +238,9 @@
     getTasks,
     saveTask,
     deleteTask,
+    getFamilyRequests,
+    saveFamilyRequest,
+    deleteFamilyRequest,
     getStorageInfo,
     requestPersistentStorage,
     saveFile,
