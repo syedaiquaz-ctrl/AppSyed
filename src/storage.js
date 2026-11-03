@@ -1,7 +1,4 @@
 
-// AppSyed device storage
-// Private profile data + separate shared family task requests.
-
 (() => {
   "use strict";
 
@@ -23,17 +20,18 @@
         }
 
         if (!db.objectStoreNames.contains("tasks")) {
-          const tasks = db.createObjectStore("tasks", {
-            keyPath: "id"
-          });
+          db.createObjectStore("tasks", { keyPath: "id" });
+        }
 
+        const transaction = request.transaction;
+        const tasks = transaction.objectStore("tasks");
+
+        if (!tasks.indexNames.contains("profileId")) {
           tasks.createIndex("profileId", "profileId", {
             unique: false
           });
         }
 
-        // Separate store: only shared task requests.
-        // Never put members' private productivity records here.
         if (!db.objectStoreNames.contains("familyRequests")) {
           const requests = db.createObjectStore("familyRequests", {
             keyPath: "id"
@@ -64,45 +62,56 @@
         databasePromise = null;
         reject(request.error);
       };
+
+      request.onblocked = () => {
+        databasePromise = null;
+        reject(new Error("Close other AppSyed tabs and reload."));
+      };
     });
 
     return databasePromise;
   }
 
-  function runRequest(storeName, mode, action) {
+  function run(storeName, mode, action) {
     return openDatabase().then(db => new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, mode);
       const store = transaction.objectStore(storeName);
       const request = action(store);
 
-      request.onsuccess = () => resolve(request.result);
+      let result;
+
+      request.onsuccess = () => {
+        result = request.result;
+      };
+
       request.onerror = () => reject(request.error);
 
-      transaction.onabort = () => {
-        reject(transaction.error || new Error("Storage operation failed."));
-      };
+      transaction.oncomplete = () => resolve(result);
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(
+        transaction.error || new Error("Storage operation failed.")
+      );
     }));
   }
 
   // Profiles
   function getProfiles() {
-    return runRequest("profiles", "readonly", store => store.getAll());
+    return run("profiles", "readonly", s => s.getAll());
   }
 
   function getProfile(id) {
-    return runRequest("profiles", "readonly", store => store.get(id));
+    return run("profiles", "readonly", s => s.get(id));
   }
 
   function saveProfile(profile) {
-    return runRequest("profiles", "readwrite", store => store.put(profile));
+    return run("profiles", "readwrite", s => s.put(profile));
   }
 
   function deleteProfile(id) {
-    return runRequest("profiles", "readwrite", store => store.delete(id));
+    return run("profiles", "readwrite", s => s.delete(id));
   }
 
-  // Private productivity records.
-  // Every record belongs to exactly one profile.
+  // Private records belonging to one profile only
   function getTasks(profileId) {
     return openDatabase().then(db => new Promise((resolve, reject) => {
       const transaction = db.transaction("tasks", "readonly");
@@ -115,71 +124,41 @@
   }
 
   function saveTask(task) {
-    if (!task || !task.id || !task.profileId) {
-      return Promise.reject(new Error("A task needs an ID and profile."));
-    }
-
-    return runRequest("tasks", "readwrite", store => store.put(task));
+    return run("tasks", "readwrite", s => s.put(task));
   }
 
   function deleteTask(id) {
-    return runRequest("tasks", "readwrite", store => store.delete(id));
+    return run("tasks", "readwrite", s => s.delete(id));
   }
 
-  // Shared family task requests.
+  // Separate shared family request records
   function getFamilyRequests() {
-    return runRequest(
-      "familyRequests",
-      "readonly",
-      store => store.getAll()
-    );
+    return run("familyRequests", "readonly", s => s.getAll());
   }
 
   function saveFamilyRequest(request) {
-    if (!request || !request.id || !request.requesterId) {
-      return Promise.reject(
-        new Error("A family request needs an ID and requester.")
-      );
-    }
-
-    return runRequest(
-      "familyRequests",
-      "readwrite",
-      store => store.put(request)
-    );
+    return run("familyRequests", "readwrite", s => s.put(request));
   }
 
   function deleteFamilyRequest(id) {
-    return runRequest(
-      "familyRequests",
-      "readwrite",
-      store => store.delete(id)
-    );
+    return run("familyRequests", "readwrite", s => s.delete(id));
   }
 
-  // Storage information
+  // Device storage information
   async function getStorageInfo() {
-    if (!navigator.storage || !navigator.storage.estimate) {
-      return null;
-    }
-
+    if (!navigator.storage?.estimate) return null;
     return navigator.storage.estimate();
   }
 
   async function requestPersistentStorage() {
-    if (!navigator.storage || !navigator.storage.persist) {
-      return false;
-    }
-
+    if (!navigator.storage?.persist) return false;
     return navigator.storage.persist();
   }
 
-  // Private file storage using OPFS
+  // Private file storage
   async function saveFile(file, profileId, taskId = null) {
-    if (!navigator.storage || !navigator.storage.getDirectory) {
-      throw new Error(
-        "This browser does not support private file storage."
-      );
+    if (!navigator.storage?.getDirectory) {
+      throw new Error("Private file storage is not supported by this browser.");
     }
 
     const root = await navigator.storage.getDirectory();
@@ -196,7 +175,7 @@
 
     const fileId = crypto.randomUUID();
     const safeName = file.name.replace(/[^\w.-]/g, "_");
-    const storedName = `${fileId}-${safeName}`;
+    const storedName = fileId + "-" + safeName;
 
     const fileHandle = await profileFolder.getFileHandle(
       storedName,
@@ -221,7 +200,6 @@
 
   async function readFile(profileId, storedName) {
     const root = await navigator.storage.getDirectory();
-
     const appFolder = await root.getDirectoryHandle("appsyed-files");
     const profileFolder = await appFolder.getDirectoryHandle(profileId);
     const fileHandle = await profileFolder.getFileHandle(storedName);
@@ -247,3 +225,4 @@
     readFile
   };
 })();
+
