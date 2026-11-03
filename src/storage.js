@@ -23,8 +23,7 @@
           db.createObjectStore("tasks", { keyPath: "id" });
         }
 
-        const transaction = request.transaction;
-        const tasks = transaction.objectStore("tasks");
+        const tasks = request.transaction.objectStore("tasks");
 
         if (!tasks.indexNames.contains("profileId")) {
           tasks.createIndex("profileId", "profileId", {
@@ -77,7 +76,6 @@
       const transaction = db.transaction(storeName, mode);
       const store = transaction.objectStore(storeName);
       const request = action(store);
-
       let result;
 
       request.onsuccess = () => {
@@ -111,7 +109,7 @@
     return run("profiles", "readwrite", s => s.delete(id));
   }
 
-  // Private records belonging to one profile only
+  // Private tasks for an individual profile
   function getTasks(profileId) {
     return openDatabase().then(db => new Promise((resolve, reject) => {
       const transaction = db.transaction("tasks", "readonly");
@@ -131,7 +129,7 @@
     return run("tasks", "readwrite", s => s.delete(id));
   }
 
-  // Separate shared family request records
+  // Shared family task requests
   function getFamilyRequests() {
     return run("familyRequests", "readonly", s => s.getAll());
   }
@@ -158,19 +156,15 @@
   // Private file storage
   async function saveFile(file, profileId, taskId = null) {
     if (!navigator.storage?.getDirectory) {
-      throw new Error("Private file storage is not supported by this browser.");
+      throw new Error("This browser does not support private file storage.");
     }
 
     const root = await navigator.storage.getDirectory();
-
     const appFolder = await root.getDirectoryHandle(
-      "appsyed-files",
-      { create: true }
+      "appsyed-files", { create: true }
     );
-
     const profileFolder = await appFolder.getDirectoryHandle(
-      profileId,
-      { create: true }
+      profileId, { create: true }
     );
 
     const fileId = crypto.randomUUID();
@@ -178,8 +172,7 @@
     const storedName = fileId + "-" + safeName;
 
     const fileHandle = await profileFolder.getFileHandle(
-      storedName,
-      { create: true }
+      storedName, { create: true }
     );
 
     const writable = await fileHandle.createWritable();
@@ -225,4 +218,3 @@
     readFile
   };
 })();
-
