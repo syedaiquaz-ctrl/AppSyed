@@ -61,11 +61,6 @@
         databasePromise = null;
         reject(request.error);
       };
-
-      request.onblocked = () => {
-        databasePromise = null;
-        reject(new Error("Close other AppSyed tabs and reload."));
-      };
     });
 
     return databasePromise;
@@ -83,7 +78,6 @@
       };
 
       request.onerror = () => reject(request.error);
-
       transaction.oncomplete = () => resolve(result);
       transaction.onerror = () => reject(transaction.error);
       transaction.onabort = () => reject(
@@ -92,7 +86,6 @@
     }));
   }
 
-  // Profiles
   function getProfiles() {
     return run("profiles", "readonly", s => s.getAll());
   }
@@ -109,7 +102,6 @@
     return run("profiles", "readwrite", s => s.delete(id));
   }
 
-  // Private tasks for an individual profile
   function getTasks(profileId) {
     return openDatabase().then(db => new Promise((resolve, reject) => {
       const transaction = db.transaction("tasks", "readonly");
@@ -129,7 +121,6 @@
     return run("tasks", "readwrite", s => s.delete(id));
   }
 
-  // Shared family task requests
   function getFamilyRequests() {
     return run("familyRequests", "readonly", s => s.getAll());
   }
@@ -142,7 +133,6 @@
     return run("familyRequests", "readwrite", s => s.delete(id));
   }
 
-  // Device storage information
   async function getStorageInfo() {
     if (!navigator.storage?.estimate) return null;
     return navigator.storage.estimate();
@@ -153,10 +143,9 @@
     return navigator.storage.persist();
   }
 
-  // Private file storage
   async function saveFile(file, profileId, taskId = null) {
     if (!navigator.storage?.getDirectory) {
-      throw new Error("This browser does not support private file storage.");
+      throw new Error("Private file storage is not supported by this browser.");
     }
 
     const root = await navigator.storage.getDirectory();
